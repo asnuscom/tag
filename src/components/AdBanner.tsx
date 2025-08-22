@@ -13,7 +13,14 @@ export default function AdBanner({
   showAds,
   className = "",
 }: AdBannerProps) {
-  const [adContent, setAdContent] = useState<any>(null);
+  const [adContent, setAdContent] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+    company: string;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -191,7 +198,7 @@ declare global {
     gtag?: (
       command: string,
       targetId: string,
-      config?: Record<string, any>
+      config?: Record<string, unknown>
     ) => void;
   }
 }

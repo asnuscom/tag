@@ -16,7 +16,6 @@ interface QRCodeDisplayProps {
 }
 
 export default function QRCodeDisplay({
-  qrCodeUrl,
   uniqueUrl,
   userInfo,
 }: QRCodeDisplayProps) {
@@ -25,7 +24,7 @@ export default function QRCodeDisplay({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fullUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${uniqueUrl}`;
 
-  // QR kodu client-side'da oluştur
+  // QR kodu client-side&apos;da oluştur
   useEffect(() => {
     const generateQRCode = async () => {
       try {
@@ -41,7 +40,7 @@ export default function QRCodeDisplay({
             errorCorrectionLevel: "M",
           });
 
-          // Canvas'ı data URL'e çevir
+          // Canvas&apos;ı data URL&apos;e çevir
           const dataUrl = canvas.toDataURL("image/png");
           setQrCodeDataUrl(dataUrl);
         }
@@ -105,7 +104,7 @@ export default function QRCodeDisplay({
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">
-          🎉 Tag'iniz Hazır!
+          🎉 Tag&apos;iniz Hazır!
         </h2>
         <p className="text-slate-300 mb-4">
           {userInfo.motorcycleBrand} {userInfo.motorcycleModel} için dijital
@@ -154,7 +153,7 @@ export default function QRCodeDisplay({
 
       {/* URL Bilgisi */}
       <div className="bg-slate-700/50 rounded-lg p-4 mb-6">
-        <p className="text-sm text-slate-400 mb-2">Tag URL'niz:</p>
+        <p className="text-sm text-slate-400 mb-2">Tag URL&apos;niz:</p>
         <p className="text-blue-400 font-mono text-sm break-all">{fullUrl}</p>
       </div>
 
@@ -207,7 +206,7 @@ export default function QRCodeDisplay({
               d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
             />
           </svg>
-          Link'i Kopyala
+          Link&apos;i Kopyala
         </button>
 
         <a
@@ -235,7 +234,7 @@ export default function QRCodeDisplay({
               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
             />
           </svg>
-          Tag'imi Görüntüle
+          Tag&apos;imi Görüntüle
         </a>
       </div>
 
@@ -246,7 +245,7 @@ export default function QRCodeDisplay({
         </h3>
         <div className="text-xs text-slate-300 space-y-1">
           <p>• QR kodu motosikletinizin görünür bir yerine yapıştırın</p>
-          <p>• Tag'iniz 7/24 erişilebilir durumda</p>
+          <p>• Tag&apos;iniz 7/24 erişilebilir durumda</p>
           <p>• Bilgilerinizi güncellemek için bizimle iletişime geçin</p>
           <p>• Premium üyelikle reklamları kaldırabilirsiniz</p>
         </div>
@@ -255,7 +254,7 @@ export default function QRCodeDisplay({
       {/* Premium Yükseltme */}
       <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg">
         <h3 className="text-sm font-semibold text-purple-400 mb-2">
-          ⭐ Premium'a Yükselt
+          ⭐ Premium&apos;a Yükselt
         </h3>
         <p className="text-xs text-slate-300 mb-3">
           Reklamları kaldır, özel tasarımlar ve daha fazla özellik
@@ -277,7 +276,7 @@ export default function QRCodeDisplay({
               d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
             />
           </svg>
-          Premium'a Yükselt
+          Premium&apos;a Yükselt
         </a>
       </div>
     </div>

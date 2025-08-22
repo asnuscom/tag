@@ -26,21 +26,25 @@ export default function TestFirebasePage() {
 
       setStatus("✅ Firebase bağlantısı başarılı!");
       console.log("Firebase test başarılı:", newTestRef.key);
-    } catch (err: any) {
-      setError(`❌ Firebase hatası: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Bilinmeyen hata";
+      setError(`❌ Firebase hatası: ${errorMessage}`);
       console.error("Firebase test hatası:", err);
 
       // Detaylı hata bilgisi
-      if (err.code) {
-        setError((prev) => prev + `\nHata Kodu: ${err.code}`);
+      if (err && typeof err === "object" && "code" in err) {
+        setError(
+          (prev) => prev + `\nHata Kodu: ${(err as { code: string }).code}`
+        );
       }
 
       // 400 hatası özel durumu
-      if (err.message.includes("400") || err.message.includes("Index")) {
+      if (errorMessage.includes("400") || errorMessage.includes("Index")) {
         setError(
           (prev) =>
             prev +
-            `\n\n🔧 Çözüm: Firebase Console > Realtime Database > Rules'da index ekleyin:`
+            `\n\n🔧 Çözüm: Firebase Console > Realtime Database > Rules&apos;da index ekleyin:`
         );
         setError((prev) => prev + `\n".indexOn": "uniqueUrl"`);
       }
@@ -88,22 +92,27 @@ export default function TestFirebasePage() {
 
       setStatus("✅ Kullanıcı oluşturma başarılı!");
       console.log("Kullanıcı test başarılı:", newUserRef.key);
-    } catch (err: any) {
-      setError(`❌ Kullanıcı oluşturma hatası: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Bilinmeyen hata";
+      setError(`❌ Kullanıcı oluşturma hatası: ${errorMessage}`);
       console.error("Kullanıcı test hatası:", err);
 
-      if (err.code) {
-        setError((prev) => prev + `\nHata Kodu: ${err.code}`);
+      if (err && typeof err === "object" && "code" in err) {
+        setError(
+          (prev) => prev + `\nHata Kodu: ${(err as { code: string }).code}`
+        );
       }
 
       // Index hatası kontrolü
       if (
-        err.message.includes("Index not defined") ||
-        err.message.includes("uniqueUrl")
+        errorMessage.includes("Index not defined") ||
+        errorMessage.includes("uniqueUrl")
       ) {
         setError(
           (prev) =>
-            prev + `\n\n🔧 ÇÖZÜM: Firebase Console'da şu adımları takip edin:`
+            prev +
+            `\n\n🔧 ÇÖZÜM: Firebase Console&apos;da şu adımları takip edin:`
         );
         setError(
           (prev) => prev + `\n1. Realtime Database > Rules sekmesine gidin`
@@ -195,19 +204,19 @@ App ID: ${config.appId}`);
           </h3>
           <ul className="text-sm space-y-2">
             <li>
-              • <strong>Invalid API Key:</strong> Environment variables'ları
-              kontrol edin
+              • <strong>Invalid API Key:</strong> Environment
+              variables&apos;ları kontrol edin
             </li>
             <li>
               • <strong>Database URL missing:</strong>{" "}
               NEXT_PUBLIC_FIREBASE_DATABASE_URL ekleyin
             </li>
             <li>
-              • <strong>Permission denied:</strong> Database rules'ları kontrol
-              edin
+              • <strong>Permission denied:</strong> Database rules&apos;ları
+              kontrol edin
             </li>
             <li>
-              • <strong>Invalid project:</strong> Project ID'yi kontrol edin
+              • <strong>Invalid project:</strong> Project ID&apos;yi kontrol edin
             </li>
           </ul>
         </div>

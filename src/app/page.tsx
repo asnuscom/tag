@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { themes } from "@/config/themes";
-import demoUsersData from "@/data/demo-users.json";
-import { User } from "@/types/user";
 import CreateTagSection from "@/components/CreateTagSection";
 
 export const metadata: Metadata = {

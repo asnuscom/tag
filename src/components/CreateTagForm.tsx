@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import { themes } from "@/config/themes";
 import { createUser } from "@/services/firebase";
@@ -123,7 +125,7 @@ export default function CreateTagForm({
     // reCAPTCHA kontrolü
     const recaptchaToken = recaptchaRef.current?.getValue();
     if (!recaptchaToken) {
-      onError("Lütfen reCAPTCHA'yı tamamlayın");
+      onError("Lütfen reCAPTCHA&apos;yı tamamlayın");
       return;
     }
 
@@ -131,15 +133,7 @@ export default function CreateTagForm({
 
     try {
       // Kullanıcı verilerini hazırla
-      const userData: Omit<
-        User,
-        | "id"
-        | "uniqueUrl"
-        | "createdAt"
-        | "updatedAt"
-        | "qrCodeUrl"
-        | "isActive"
-      > = {
+      const userData = {
         personalInfo: {
           name: formData.name,
           phone: formData.phone,
@@ -162,14 +156,14 @@ export default function CreateTagForm({
         theme: formData.motorcycleBrand as User["theme"],
         tag: "USER",
         note: formData.note,
-        isPremium: false,
-        showAds: true,
+        isPremium: false as boolean,
+        showAds: true as boolean,
       };
 
       // Kullanıcıyı oluştur
       const result = await createUser(userData);
 
-      // Başarı callback'ini çağır
+      // Başarı callback&apos;ini çağır
       onSuccess(result.uniqueUrl, result.qrCodeUrl, {
         name: formData.name,
         motorcycleBrand:
@@ -210,7 +204,7 @@ export default function CreateTagForm({
     <div className="max-w-2xl mx-auto bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 md:p-8">
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Kendi Tag'inizi Oluşturun
+          Kendi Tag&apos;inizi Oluşturun
         </h2>
         <p className="text-slate-300">
           Motosikletiniz için özel tasarlanmış dijital iletişim kartınızı
@@ -314,9 +308,11 @@ export default function CreateTagForm({
           {/* Motosiklet Görseli Önizleme */}
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <img
+              <Image
                 src={getMotorcycleImage(formData.motorcycleBrand)}
                 alt={`${formData.motorcycleBrand} motosiklet`}
+                width={128}
+                height={128}
                 className="w-32 h-32 object-contain rounded-lg border-2 border-slate-600 bg-slate-700/50"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
@@ -461,19 +457,19 @@ export default function CreateTagForm({
             required
           />
           <label className="text-sm text-slate-300">
-            <a
+            <Link
               href="/terms"
               className="text-blue-400 hover:text-blue-300 underline"
             >
               Kullanım Şartları
-            </a>{" "}
+            </Link>{" "}
             ve{" "}
-            <a
+            <Link
               href="/privacy"
               className="text-blue-400 hover:text-blue-300 underline"
             >
               Gizlilik Politikası
-            </a>
+            </Link>
             &apos;nı okudum ve kabul ediyorum. *
           </label>
         </div>

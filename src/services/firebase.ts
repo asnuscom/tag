@@ -19,7 +19,7 @@ export const generateUniqueUrl = (): string => {
 };
 
 // Yeni kullanıcı oluşturma
-export const createUser = async (userData: Omit<User, 'id' | 'uniqueUrl' | 'createdAt' | 'updatedAt' | 'qrCodeUrl' | 'isActive'> & {isPremium: boolean, showAds: boolean}): Promise<{id: string, uniqueUrl: string, qrCodeUrl: string}> => {
+export const createUser = async (userData: Omit<User, 'id' | 'uniqueUrl' | 'createdAt' | 'updatedAt' | 'qrCodeUrl' | 'isActive'> & Required<Pick<User, 'isPremium' | 'showAds'>>): Promise<{id: string, uniqueUrl: string, qrCodeUrl: string}> => {
   try {
     // Benzersiz URL oluştur
     const uniqueUrl = generateUniqueUrl();
@@ -64,16 +64,16 @@ export const getUserByUniqueUrl = async (uniqueUrl: string): Promise<User | null
     }
     
     // Tüm kullanıcıları tara ve uniqueUrl eşleşenini bul
-    const users = snapshot.val();
+    const users = snapshot.val() as Record<string, Record<string, unknown>>;
     for (const [userId, userData] of Object.entries(users)) {
-      const user = userData as any;
+      const user = userData as Record<string, unknown>;
       if (user.uniqueUrl === uniqueUrl) {
         return {
           id: userId,
           ...user,
           // Timestamp'leri Date'e çevir
-          createdAt: user.createdAt ? new Date(user.createdAt) : new Date(),
-          updatedAt: user.updatedAt ? new Date(user.updatedAt) : new Date(),
+          createdAt: user.createdAt ? new Date(user.createdAt as string | number | Date) : new Date(),
+          updatedAt: user.updatedAt ? new Date(user.updatedAt as string | number | Date) : new Date(),
         } as User;
       }
     }

@@ -122,7 +122,7 @@ export default function CreateTagSection() {
         </div>
 
         <h2 className="text-2xl md:text-3xl font-bold mb-4">
-          Kendi Tag'inizi Hemen Oluşturun
+          Kendi Tag&apos;inizi Hemen Oluşturun
         </h2>
 
         <p className="text-slate-300 mb-6 text-sm md:text-base">

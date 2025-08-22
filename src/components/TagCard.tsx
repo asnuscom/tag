@@ -150,20 +150,24 @@ export default function TagCard({ user, theme }: TagCardProps) {
                   <div className="flex flex-col items-center gap-1">
                     <div
                       className="h-8 w-8 rounded-full shadow-lg ring-2"
-                      style={{
-                        backgroundColor: theme.colors.primary,
-                        ringColor: `${theme.colors.primary}4D`,
-                      }}
+                      style={
+                        {
+                          backgroundColor: theme.colors.primary,
+                          "--tw-ring-color": `${theme.colors.primary}4D`,
+                        } as React.CSSProperties
+                      }
                     />
                     <span className="text-xs text-slate-300">Ana</span>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <div
                       className="h-6 w-6 rounded-full shadow-lg ring-2"
-                      style={{
-                        backgroundColor: theme.colors.secondary,
-                        ringColor: "rgba(255,255,255,0.2)",
-                      }}
+                      style={
+                        {
+                          backgroundColor: theme.colors.secondary,
+                          "--tw-ring-color": "rgba(255,255,255,0.2)",
+                        } as React.CSSProperties
+                      }
                     />
                     <span className="text-xs text-slate-400">İkincil</span>
                   </div>

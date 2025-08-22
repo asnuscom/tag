@@ -1,0 +1,94 @@
+{
+  "svartrider": {
+    "id": "svartrider",
+    "personalInfo": {
+      "name": "İhsan Sunman",
+      "phone": "05421065299",
+      "email": "ihsansunman@asnus.com",
+      "instagram": "ihsansunman",
+      "bloodType": "0 RH +"
+    },
+    "motorcycle": {
+      "brand": "Husqvarna",
+      "model": "Svartpilen 250",
+      "plate": "34 KRD 631",
+      "image": "/assets/motorcycles/husqvarna-svartpilen.png"
+    },
+    "emergency": {
+      "name": "Samet Sunman",
+      "phone": "0541 577 91 66"
+    },
+    "theme": "husqvarna",
+    "tag": "SVARTRIDER",
+    "note": "Eğer motosikletimle ilgili bir sorun varsa lütfen benimle iletişime geçin. Kısa sürede geri döneceğim. Teşekkürler!"
+  },
+  "casska": {
+    "id": "casska",
+    "personalInfo": {
+      "name": "Samet Sunman",
+      "phone": "05415779166",
+      "email": "sametsunman@asnus.com",
+      "instagram": "casskaa",
+      "bloodType": "0 RH +"
+    },
+    "motorcycle": {
+      "brand": "Honda",
+      "model": "CB250R",
+      "plate": "34 HKU 891",
+      "image": "/assets/motorcycles/honda-cb250r.png"
+    },
+    "emergency": {
+      "name": "İhsan Sunman",
+      "phone": "0542 106 52 99"
+    },
+    "theme": "honda",
+    "tag": "CASSKA",
+    "note": "Eğer motosikletimle ilgili bir sorun varsa lütfen benimle iletişime geçin. Kısa sürede geri döneceğim. Teşekkürler!"
+  },
+  "bluerider": {
+    "id": "bluerider",
+    "personalInfo": {
+      "name": "Ali Kaya",
+      "phone": "05334567890",
+      "email": "alikaya@asnus.com",
+      "instagram": "alikaya_r25",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Yamaha",
+      "model": "YZF-R25",
+      "plate": "34 YZF 025",
+      "image": "/assets/motorcycles/yamaha-r25.png"
+    },
+    "emergency": {
+      "name": "Mehmet Kaya",
+      "phone": "0532 123 45 67"
+    },
+    "theme": "yamaha",
+    "tag": "BLUERIDER",
+    "note": "Eğer motosikletimle ilgili bir sorun varsa lütfen benimle iletişime geçin. Kısa sürede geri döneceğim. Teşekkürler!"
+  },
+  "british": {
+    "id": "british",
+    "personalInfo": {
+      "name": "James Wilson",
+      "phone": "05447651234",
+      "email": "jameswilson@asnus.com",
+      "instagram": "jameswilson_triumph",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Triumph",
+      "model": "Street Triple 765",
+      "plate": "34 TRI 765",
+      "image": "/assets/motorcycles/triumph-street-triple.png"
+    },
+    "emergency": {
+      "name": "Robert Wilson",
+      "phone": "0555 123 45 67"
+    },
+    "theme": "triumph",
+    "tag": "BRITISH",
+    "note": "Eğer motosikletimle ilgili bir sorun varsa lütfen benimle iletişime geçin. Kısa sürede geri döneceğim. Teşekkürler!"
+  }
+}

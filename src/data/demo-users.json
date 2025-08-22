@@ -1,0 +1,462 @@
+{
+  "demo-honda": {
+    "id": "demo-honda",
+    "personalInfo": {
+      "name": "Takeshi Honda",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@honda-example.com",
+      "instagram": "demo_honda",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Honda",
+      "model": "CB250R",
+      "plate": "34 HND 250",
+      "image": "/assets/motorcycles/honda-cb250r.png"
+    },
+    "emergency": {
+      "name": "Yuki Honda",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "honda",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-yamaha": {
+    "id": "demo-yamaha",
+    "personalInfo": {
+      "name": "Hiroshi Yamaha",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@yamaha-example.com",
+      "instagram": "demo_yamaha",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Yamaha",
+      "model": "YZF-R25",
+      "plate": "34 YMH 025",
+      "image": "/assets/motorcycles/yamaha-r25.png"
+    },
+    "emergency": {
+      "name": "Akiko Yamaha",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "yamaha",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-kawasaki": {
+    "id": "demo-kawasaki",
+    "personalInfo": {
+      "name": "Kenji Kawasaki",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@kawasaki-example.com",
+      "instagram": "demo_kawasaki",
+      "bloodType": "O RH +"
+    },
+    "motorcycle": {
+      "brand": "Kawasaki",
+      "model": "Ninja 250",
+      "plate": "34 KWS 250",
+      "image": "/assets/motorcycles/kawasaki-ninja250.png"
+    },
+    "emergency": {
+      "name": "Akiko Kawasaki",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "kawasaki",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-suzuki": {
+    "id": "demo-suzuki",
+    "personalInfo": {
+      "name": "Hiroshi Suzuki",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@suzuki-example.com",
+      "instagram": "demo_suzuki",
+      "bloodType": "O RH +"
+    },
+    "motorcycle": {
+      "brand": "Suzuki",
+      "model": "GSX-R250",
+      "plate": "34 SZK 250",
+      "image": "/assets/motorcycles/suzuki-gsxr250.png"
+    },
+    "emergency": {
+      "name": "Yuki Suzuki",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "suzuki",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-bmw": {
+    "id": "demo-bmw",
+    "personalInfo": {
+      "name": "Hans Mueller",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@bmw-example.com",
+      "instagram": "demo_bmw",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "BMW",
+      "model": "G 310 R",
+      "plate": "34 BMW 310",
+      "image": "/assets/motorcycles/bmw-g310r.png"
+    },
+    "emergency": {
+      "name": "Anna Mueller",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "bmw",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-ktm": {
+    "id": "demo-ktm",
+    "personalInfo": {
+      "name": "Stefan Pierer",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@ktm-example.com",
+      "instagram": "demo_ktm",
+      "bloodType": "O RH +"
+    },
+    "motorcycle": {
+      "brand": "KTM",
+      "model": "Duke 250",
+      "plate": "34 KTM 250",
+      "image": "/assets/motorcycles/ktm-duke250.png"
+    },
+    "emergency": {
+      "name": "Maria Pierer",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "ktm",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-ducati": {
+    "id": "demo-ducati",
+    "personalInfo": {
+      "name": "Marco Rossi",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@ducati-example.com",
+      "instagram": "demo_ducati",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Ducati",
+      "model": "Monster 797",
+      "plate": "34 DUC 797",
+      "image": "/assets/motorcycles/ducati-monster797.png"
+    },
+    "emergency": {
+      "name": "Giulia Rossi",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "ducati",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-aprilia": {
+    "id": "demo-aprilia",
+    "personalInfo": {
+      "name": "Alessandro Bianchi",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@aprilia-example.com",
+      "instagram": "demo_aprilia",
+      "bloodType": "AB RH +"
+    },
+    "motorcycle": {
+      "brand": "Aprilia",
+      "model": "RS 125",
+      "plate": "34 APR 125",
+      "image": "/assets/motorcycles/aprilia-rs125.png"
+    },
+    "emergency": {
+      "name": "Francesca Bianchi",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "aprilia",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-harley": {
+    "id": "demo-harley",
+    "personalInfo": {
+      "name": "Jack Davidson",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@harley-example.com",
+      "instagram": "demo_harley",
+      "bloodType": "O RH +"
+    },
+    "motorcycle": {
+      "brand": "Harley-Davidson",
+      "model": "Street 750",
+      "plate": "34 HDV 750",
+      "image": "/assets/motorcycles/harley-street750.png"
+    },
+    "emergency": {
+      "name": "Mary Davidson",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "harley",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-triumph": {
+    "id": "demo-triumph",
+    "personalInfo": {
+      "name": "James Thompson",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@triumph-example.com",
+      "instagram": "demo_triumph",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Triumph",
+      "model": "Street Triple 765",
+      "plate": "34 TRI 765",
+      "image": "/assets/motorcycles/triumph-street-triple.png"
+    },
+    "emergency": {
+      "name": "Emily Thompson",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "triumph",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-husqvarna": {
+    "id": "demo-husqvarna",
+    "personalInfo": {
+      "name": "Erik Andersson",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@husqvarna-example.com",
+      "instagram": "demo_husqvarna",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Husqvarna",
+      "model": "Svartpilen 250",
+      "plate": "34 HSQ 250",
+      "image": "/assets/motorcycles/husqvarna-svartpilen.png"
+    },
+    "emergency": {
+      "name": "Astrid Andersson",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "husqvarna",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-cfmoto": {
+    "id": "demo-cfmoto",
+    "personalInfo": {
+      "name": "Mehmet Çelik",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@cfmoto-example.com",
+      "instagram": "demo_cfmoto",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "CFMoto",
+      "model": "NK 250",
+      "plate": "34 CFM 250",
+      "image": "/assets/motorcycles/cfmoto-nk250.png"
+    },
+    "emergency": {
+      "name": "Ayşe Çelik",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "cfmoto",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-benelli": {
+    "id": "demo-benelli",
+    "personalInfo": {
+      "name": "Giuseppe Benelli",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@benelli-example.com",
+      "instagram": "demo_benelli",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Benelli",
+      "model": "TNT 25",
+      "plate": "34 BNL 025",
+      "image": "/assets/motorcycles/benelli-tnt25.png"
+    },
+    "emergency": {
+      "name": "Maria Benelli",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "benelli",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-moto-guzzi": {
+    "id": "demo-moto-guzzi",
+    "personalInfo": {
+      "name": "Carlo Guzzi",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@motoguzzi-example.com",
+      "instagram": "demo_motoguzzi",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Moto Guzzi",
+      "model": "V7 III Stone",
+      "plate": "34 MGZ 007",
+      "image": "/assets/motorcycles/moto-guzzi-v7.png"
+    },
+    "emergency": {
+      "name": "Lucia Guzzi",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "moto_guzzi",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-mv-agusta": {
+    "id": "demo-mv-agusta",
+    "personalInfo": {
+      "name": "Claudio Castiglioni",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@mvagusta-example.com",
+      "instagram": "demo_mvagusta",
+      "bloodType": "O RH +"
+    },
+    "motorcycle": {
+      "brand": "MV Agusta",
+      "model": "Brutale 800",
+      "plate": "34 MVA 800",
+      "image": "/assets/motorcycles/mv-agusta-brutale800.png"
+    },
+    "emergency": {
+      "name": "Elena Castiglioni",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "mv_agusta",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-indian": {
+    "id": "demo-indian",
+    "personalInfo": {
+      "name": "Chief Running Bear",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@indian-example.com",
+      "instagram": "demo_indian",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Indian",
+      "model": "Scout Bobber",
+      "plate": "34 IND 600",
+      "image": "/assets/motorcycles/indian-scout.png"
+    },
+    "emergency": {
+      "name": "White Eagle",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "indian",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-royal-enfield": {
+    "id": "demo-royal-enfield",
+    "personalInfo": {
+      "name": "Raj Patel",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@royalenfield-example.com",
+      "instagram": "demo_royalenfield",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Royal Enfield",
+      "model": "Classic 350",
+      "plate": "34 REF 350",
+      "image": "/assets/motorcycles/royal-enfield-classic350.png"
+    },
+    "emergency": {
+      "name": "Priya Patel",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "royal_enfield",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-jawa": {
+    "id": "demo-jawa",
+    "personalInfo": {
+      "name": "Pavel Novák",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@jawa-example.com",
+      "instagram": "demo_jawa",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Jawa",
+      "model": "42",
+      "plate": "34 JAW 042",
+      "image": "/assets/motorcycles/jawa-42.png"
+    },
+    "emergency": {
+      "name": "Anna Nováková",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "jawa",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-rks": {
+    "id": "demo-rks",
+    "personalInfo": {
+      "name": "Burak Yılmaz",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@rks-example.com",
+      "instagram": "demo_rks",
+      "bloodType": "AB RH +"
+    },
+    "motorcycle": {
+      "brand": "RKS",
+      "model": "RS 200",
+      "plate": "34 RKS 200",
+      "image": "/assets/motorcycles/rks-rs200.png"
+    },
+    "emergency": {
+      "name": "Zeynep Yılmaz",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "rks",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  },
+  "demo-bajaj": {
+    "id": "demo-bajaj",
+    "personalInfo": {
+      "name": "Raj Bajaj",
+      "phone": "05XX XXX XX XX",
+      "email": "demo@bajaj-example.com",
+      "instagram": "demo_bajaj",
+      "bloodType": "B RH +"
+    },
+    "motorcycle": {
+      "brand": "Bajaj",
+      "model": "Pulsar NS200",
+      "plate": "34 BAJ 200",
+      "image": "/assets/motorcycles/bajaj-pulsar.png"
+    },
+    "emergency": {
+      "name": "Priya Bajaj",
+      "phone": "05XX XXX XX XX"
+    },
+    "theme": "bajaj",
+    "tag": "DEMO",
+    "note": "Bu bir demo sayfasıdır. Kendi motosiklet kartınızı oluşturmak için bizimle iletişime geçin!"
+  }
+}

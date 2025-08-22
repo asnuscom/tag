@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dynamic Tag System
 
-## Getting Started
+Motosiklet sürücüleri için dinamik iletişim kartları sistemi. JSON dosyasından veri alarak otomatik olarak kişiselleştirilmiş sayfalar oluşturur.
 
-First, run the development server:
+## Özellikler
+
+- ✅ **Dinamik Routing**: `/username` formatında otomatik sayfa oluşturma
+- ✅ **Marka Temları**: Husqvarna, Honda, Yamaha, Triumph için özel temalar
+- ✅ **Responsive Tasarım**: Tüm cihazlarda mükemmel görünüm
+- ✅ **TypeScript**: Tip güvenli geliştirme
+- ✅ **Tailwind CSS**: Modern ve hızlı styling
+- ✅ **GitHub Actions**: Otomatik deployment
+- ✅ **Static Export**: GitHub Pages uyumlu
+
+## Kullanılan Teknolojiler
+
+- **Next.js 15**: App Router ile
+- **TypeScript**: Tip güvenliği
+- **Tailwind CSS**: Styling framework
+- **GitHub Actions**: CI/CD pipeline
+
+## Kurulum
 
 ```bash
+# Bağımlılıkları yükle
+npm install
+
+# Geliştirme sunucusunu başlat
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Production build
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Proje Yapısı
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/
+│   ├── [username]/          # Dinamik routing
+│   │   └── page.tsx
+│   ├── page.tsx             # Ana sayfa
+│   └── not-found.tsx        # 404 sayfası
+├── components/
+│   └── TagCard.tsx          # Ana kart komponenti
+├── config/
+│   └── themes.ts            # Marka temaları
+├── data/
+│   └── users.json           # Kullanıcı verileri
+└── types/
+    └── user.ts              # TypeScript tipleri
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Yeni Kullanıcı Ekleme
 
-## Learn More
+`src/data/users.json` dosyasına yeni kullanıcı ekleyin:
 
-To learn more about Next.js, take a look at the following resources:
+```json
+{
+  "username": {
+    "id": "username",
+    "personalInfo": {
+      "name": "İsim Soyisim",
+      "phone": "05xxxxxxxxx",
+      "email": "email@domain.com",
+      "instagram": "instagram_username",
+      "bloodType": "A RH +"
+    },
+    "motorcycle": {
+      "brand": "Marka",
+      "model": "Model",
+      "plate": "XX ABC 123",
+      "image": "/assets/motorcycles/image.png"
+    },
+    "emergency": {
+      "name": "Acil Kişi",
+      "phone": "05xxxxxxxxx"
+    },
+    "theme": "husqvarna|honda|yamaha|triumph",
+    "note": "Özel not mesajı"
+  }
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+GitHub Actions otomatik olarak `main` branch'e push edildiğinde deploy eder.
 
-## Deploy on Vercel
+### Manuel Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## URL Yapısı
+
+- Ana sayfa: `https://yourdomain.com/`
+- Kullanıcı kartları: `https://yourdomain.com/username`
+
+## Örnek URL'ler
+
+- `https://tag.asnus.com/svartrider` - Husqvarna Svartpilen
+- `https://tag.asnus.com/casska` - Honda CB250R
+- `https://tag.asnus.com/bluerider` - Yamaha R25
+- `https://tag.asnus.com/british` - Triumph Street Triple
+
+## Tema Sistemı
+
+Her marka için özel renk paleti ve tasarım:
+
+- **Husqvarna**: Sarı/Siyah (İskandinav minimalizm)
+- **Honda**: Kırmızı/Siyah (Japon güvenilirlik)
+- **Yamaha**: Mavi/Siyah (Japon performans)
+- **Triumph**: Yeşil/Altın (İngiliz zarafet)
+
+## Katkıda Bulunma
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit edin (`git commit -m 'Add amazing feature'`)
+4. Push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+## Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
+
+## İletişim
+
+- **E-posta**: info@asnus.com
+- **WhatsApp**: +90 542 106 52 99
+- **Website**: https://asnus.com

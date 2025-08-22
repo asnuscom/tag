@@ -5,9 +5,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  assetPrefix:
-    process.env.NODE_ENV === "production" ? "/dynamic-tag-system" : "",
-  basePath: process.env.NODE_ENV === "production" ? "/dynamic-tag-system" : "",
 };
 
 module.exports = nextConfig;

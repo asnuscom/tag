@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { themes } from "@/config/themes";
 import demoUsersData from "@/data/demo-users.json";
 import { User } from "@/types/user";
+import CreateTagSection from "@/components/CreateTagSection";
 
 export const metadata: Metadata = {
   title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
@@ -229,13 +230,11 @@ export default function HomePage() {
     },
   ];
 
-  const demoUsers = demoUsersData as Record<string, User>;
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-12 md:py-16">
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 via-red-500 via-blue-500 to-green-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 via-red-500 to-blue-500 bg-clip-text text-transparent">
             Asnus Tag System
           </h1>
           <p className="text-slate-300 text-lg sm:text-xl mb-3 sm:mb-4">
@@ -247,62 +246,8 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* CTA Section - Yukarı taşındı */}
-        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <div className="inline-block bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-blue-500/30 rounded-2xl p-4 sm:p-6 md:p-8 max-w-lg mx-auto">
-            <div className="mb-3 sm:mb-4">
-              <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 text-xs sm:text-sm rounded-full border border-blue-500/30 mb-3 sm:mb-4">
-                🚀 Hızlı Başlangıç
-              </span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
-              Kendi Kartınızı Oluşturun
-            </h2>
-            <p className="text-slate-300 mb-4 sm:mb-6 text-sm sm:text-base">
-              Motosikletiniz için özel tasarlanmış, profesyonel iletişim
-              kartınızı bugün oluşturun
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-              <a
-                href="mailto:info@asnus.com"
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center gap-2 justify-center text-sm sm:text-base"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-                E-posta Gönder
-              </a>
-              <a
-                href="https://wa.me/905421065299"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 flex items-center gap-2 justify-center text-sm sm:text-base"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20 3.5A10.5 10.5 0 006.6 20.7L3 21l1-3.6A10.5 10.5 0 1020 3.5zM7.8 8.4c.2-.5.4-.5.7-.5h.6c.2 0 .5 0 .7.6s.8 1.9.9 2-.1.4-.3.6-.5.6-.7.8c-.1.2-.3.4 0 .8s1.2 1.9 2.6 2.6c1.3.8 1.6.7 1.9.6.3-.1.9-.4 1-.7.1-.4.5-.7.7-.9s.4-.3.3-.6-.3-1-.7-1.5c-.4-.5-.8-.4-1.1-.3s-.7.5-.8.7c-.2.2-.4.3-.7.1s-1.3-.5-2-1.2c-.7-.7-1.2-1.5-1.4-1.7-.2-.3 0-.5.1-.7.1-.1.3-.4.4-.5z" />
-                </svg>
-                WhatsApp
-              </a>
-            </div>
-            <p className="text-xs text-slate-500 mt-3 sm:mt-4">
-              Profesyonel tasarım • Hızlı teslimat • 7/24 destek
-            </p>
-          </div>
-        </div>
+        {/* Tag Oluşturma Bölümü */}
+        <CreateTagSection />
 
         {/* Markalar - Responsive grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto mb-12 sm:mb-16">

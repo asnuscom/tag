@@ -18,8 +18,8 @@ export const generateUniqueUrl = (): string => {
   return `${timestamp}${randomStr}`.toLowerCase();
 };
 
-// Yeni kullanıcı oluşturma
-export const createUser = async (userData: Omit<User, 'id' | 'uniqueUrl' | 'createdAt' | 'updatedAt' | 'qrCodeUrl' | 'isActive'> & Required<Pick<User, 'isPremium' | 'showAds'>>): Promise<{id: string, uniqueUrl: string, qrCodeUrl: string}> => {
+// Yeni kullanıcı oluşturma (auth kullanıcısı ile)
+export const createUser = async (userData: Omit<User, 'id' | 'uniqueUrl' | 'createdAt' | 'updatedAt' | 'qrCodeUrl' | 'isActive'> & Required<Pick<User, 'isPremium' | 'showAds' | 'authUid'>>): Promise<{id: string, uniqueUrl: string, qrCodeUrl: string}> => {
   try {
     // Benzersiz URL oluştur
     const uniqueUrl = generateUniqueUrl();
@@ -125,5 +125,48 @@ export const updateTagStatus = async (userId: string, isActive: boolean): Promis
   } catch (error) {
     console.error('Tag durumu güncelleme hatası:', error);
     throw error;
+  }
+};
+
+// Auth kullanıcısına göre tag getirme
+export const getUserByAuthUid = async (authUid: string): Promise<User | null> => {
+  try {
+    const usersRef = ref(database, 'users');
+    const snapshot = await get(usersRef);
+    
+    if (!snapshot.exists()) {
+      return null;
+    }
+    
+    // Tüm kullanıcıları tara ve authUid eşleşenini bul
+    const users = snapshot.val() as Record<string, Record<string, unknown>>;
+    for (const [userId, userData] of Object.entries(users)) {
+      const user = userData as Record<string, unknown>;
+      if (user.authUid === authUid) {
+        return {
+          id: userId,
+          ...user,
+          // Timestamp'leri Date'e çevir
+          createdAt: user.createdAt ? new Date(user.createdAt as string | number | Date) : new Date(),
+          updatedAt: user.updatedAt ? new Date(user.updatedAt as string | number | Date) : new Date(),
+        } as User;
+      }
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Auth kullanıcısı tag getirme hatası:', error);
+    throw error;
+  }
+};
+
+// Kullanıcının tag'i olup olmadığını kontrol et
+export const hasUserTag = async (authUid: string): Promise<boolean> => {
+  try {
+    const user = await getUserByAuthUid(authUid);
+    return user !== null;
+  } catch (error) {
+    console.error('Tag kontrolü hatası:', error);
+    return false;
   }
 };

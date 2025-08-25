@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { themes } from "@/config/themes";
 import CreateTagSection from "@/components/CreateTagSection";
+import AuthButtons from "@/components/AuthButtons";
 
 export const metadata: Metadata = {
   title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
@@ -231,6 +232,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-12 md:py-16">
+        {/* Auth Buttons - Sağ üst köşe */}
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <AuthButtons />
+        </div>
+
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 via-red-500 to-blue-500 bg-clip-text text-transparent">
             Asnus Tag System

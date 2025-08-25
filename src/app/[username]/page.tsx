@@ -5,7 +5,6 @@ import usersData from "@/data/users.json";
 import demoUsersData from "@/data/demo-users.json";
 import TagCard from "@/components/TagCard";
 import { getUserByUniqueUrl } from "@/services/firebase";
-import AdBanner from "@/components/AdBanner";
 
 interface PageProps {
   params: Promise<{
@@ -30,10 +29,23 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   const resolvedParams = await params;
-  const users = usersData as Record<string, User>;
-  const demoUsers = demoUsersData as Record<string, User>;
-  const allUsers = { ...users, ...demoUsers };
-  const user = allUsers[resolvedParams.username];
+
+  // Önce Firebase'den kullanıcıyı aramaya çalış
+  let user: User | null = null;
+
+  try {
+    user = await getUserByUniqueUrl(resolvedParams.username);
+  } catch (error) {
+    console.error("Firebase kullanıcı getirme hatası:", error);
+  }
+
+  // Firebase'de bulunamazsa, statik verilerden ara
+  if (!user) {
+    const users = usersData as Record<string, User>;
+    const demoUsers = demoUsersData as Record<string, User>;
+    const allUsers = { ...users, ...demoUsers };
+    user = allUsers[resolvedParams.username];
+  }
 
   if (!user) {
     return {
@@ -48,7 +60,7 @@ export async function generateMetadata({ params }: PageProps) {
   const isDemo = user.tag === "DEMO";
   const title = isDemo
     ? `${user.motorcycle.brand} ${user.motorcycle.model} Demo • Asnus Tag System`
-    : `${user.motorcycle.brand} ${user.motorcycle.model} • ${user.personalInfo.name}`;
+    : `${user.motorcycle.plate} • ${user.personalInfo.name} • Asnus Tag System`;
 
   const description = isDemo
     ? `${user.motorcycle.brand} ${user.motorcycle.model} demo motosiklet iletişim kartı. Kendi kartınızı oluşturmak için bizimle iletişime geçin.`
@@ -137,28 +149,24 @@ export default async function UserPage({ params }: PageProps) {
 
   const theme = themes[user.theme];
 
-  // Reklam gösterimi kontrolü - demo kullanıcılar için varsayılan olarak false
-  const shouldShowAds =
-    user.showAds !== undefined ? user.showAds : user.tag !== "DEMO";
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Üst Reklam Alanı */}
-      {shouldShowAds && (
+      {/* {shouldShowAds && (
         <div className="container mx-auto px-4 pt-4">
           <AdBanner position="top" showAds={shouldShowAds} />
         </div>
-      )}
+      )} */}
 
       {/* Tag Card */}
       <TagCard user={user} theme={theme} />
 
       {/* Alt Reklam Alanı */}
-      {shouldShowAds && (
+      {/* {shouldShowAds && (
         <div className="container mx-auto px-4 pb-4">
           <AdBanner position="bottom" showAds={shouldShowAds} />
         </div>
-      )}
+      )} */}
     </div>
   );
 }

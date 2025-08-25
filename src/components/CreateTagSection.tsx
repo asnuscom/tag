@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import CreateTagForm from "./CreateTagForm";
 import QRCodeDisplay from "./QRCodeDisplay";
+import AuthModal from "./AuthModal";
 
 export default function CreateTagSection() {
+  const { user, loading } = useAuth();
   const [showForm, setShowForm] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [createdTag, setCreatedTag] = useState<{
     uniqueUrl: string;
     qrCodeUrl: string;
@@ -45,6 +49,14 @@ export default function CreateTagSection() {
     setShowForm(false);
     setCreatedTag(null);
     setError(null);
+  };
+
+  const handleCreateClick = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    setShowForm(true);
   };
 
   // Başarılı oluşturma durumu
@@ -197,23 +209,49 @@ export default function CreateTagSection() {
         </div>
 
         <button
-          onClick={() => setShowForm(true)}
+          onClick={handleCreateClick}
           className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2 mx-auto"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-          Hemen Oluştur
+          {loading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Yükleniyor...
+            </>
+          ) : !user ? (
+            <>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
+              </svg>
+              Giriş Yaparak Oluştur
+            </>
+          ) : (
+            <>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Hemen Oluştur
+            </>
+          )}
         </button>
 
         <p className="text-xs text-slate-500 mt-4">
@@ -226,6 +264,13 @@ export default function CreateTagSection() {
           </a>
         </p>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode="signup"
+      />
     </div>
   );
 }

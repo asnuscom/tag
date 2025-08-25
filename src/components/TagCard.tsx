@@ -75,7 +75,9 @@ export default function TagCard({ user, theme }: TagCardProps) {
             </div>
           </div>
           <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300 ring-1 ring-white/10">
-            {user.tag}
+            {user.tag === "DEMO"
+              ? "DEMO"
+              : user.personalInfo.name.split(" ")[0]}
           </span>
         </header>
 
@@ -364,7 +366,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
             />
             Asnus
           </span>
-          <span>v2.3</span>
+          <span>v2.7</span>
         </div>
       </main>
     </div>

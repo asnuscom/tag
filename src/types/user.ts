@@ -20,6 +20,7 @@ export interface Emergency {
 
 export interface User {
   id: string;
+  authUid?: string; // Firebase Auth kullanıcı ID'si - yeni eklenen alan
   personalInfo: PersonalInfo;
   motorcycle: Motorcycle;
   emergency: Emergency;

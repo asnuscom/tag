@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useAuth } from "@/contexts/AuthContext";
 import { themes } from "@/config/themes";
 import { createUser } from "@/services/firebase";
 import { User } from "@/types/user";
@@ -27,6 +28,7 @@ export default function CreateTagForm({
   onSuccess,
   onError,
 }: CreateTagFormProps) {
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     // Kişisel bilgiler
@@ -132,8 +134,15 @@ export default function CreateTagForm({
     setIsLoading(true);
 
     try {
+      // Auth kontrolü
+      if (!user) {
+        onError("Lütfen önce giriş yapın.");
+        return;
+      }
+
       // Kullanıcı verilerini hazırla
       const userData = {
+        authUid: user.uid, // Firebase Auth UID'si ekle
         personalInfo: {
           name: formData.name,
           phone: formData.phone,

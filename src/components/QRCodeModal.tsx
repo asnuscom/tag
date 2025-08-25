@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { User } from "@/types/user";
 import QRCardGenerator from "./QRCardGenerator";
@@ -16,14 +15,9 @@ export default function QRCodeModal({
   onClose,
   userTag,
 }: QRCodeModalProps) {
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
   const fullUrl = `${
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"
-  }/${userTag.uniqueUrl}`;
-
-  const handleQRGenerated = (dataUrl: string) => {
-    setQrCodeDataUrl(dataUrl);
-  };
+  }${userTag.uniqueUrl}`;
 
   const copyToClipboard = async () => {
     try {
@@ -77,15 +71,11 @@ export default function QRCodeModal({
           </div>
 
           {/* QR Kod Generator */}
-          <QRCardGenerator
-            userTag={userTag}
-            fullUrl={fullUrl}
-            onQRGenerated={handleQRGenerated}
-          />
+          <QRCardGenerator userTag={userTag} fullUrl={fullUrl} />
 
           {/* URL Bilgisi */}
           <div className="bg-slate-700/50 rounded-lg p-3 mb-4">
-            <p className="text-sm text-slate-400 mb-2">Tag URL'niz:</p>
+            <p className="text-sm text-slate-400 mb-2">Tag URL&apos;niz:</p>
             <p className="text-blue-400 font-mono text-xs break-all">
               {fullUrl}
             </p>
@@ -140,7 +130,7 @@ export default function QRCodeModal({
           <div className="mt-6 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
             <div className="text-xs text-slate-300 space-y-1">
               <p>• QR kodu motosikletinizin görünür bir yerine yapıştırın</p>
-              <p>• Tag'iniz 7/24 erişilebilir durumda</p>
+              <p>• Tag&apos;iniz 7/24 erişilebilir durumda</p>
               <p>• Acil durumlarda hızla iletişim sağlar</p>
             </div>
           </div>

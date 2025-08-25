@@ -46,14 +46,14 @@ src/
 ├── config/
 │   └── themes.ts            # Marka temaları
 ├── data/
-│   └── users.json           # Kullanıcı verileri
+│   └── demo-users.json      # Demo kullanıcı verileri
 └── types/
     └── user.ts              # TypeScript tipleri
 ```
 
 ## Yeni Kullanıcı Ekleme
 
-`src/data/users.json` dosyasına yeni kullanıcı ekleyin:
+Artık kullanıcılar Firebase üzerinden dinamik olarak yönetiliyor. Demo kullanıcılar için `src/data/demo-users.json` dosyasına ekleyebilirsiniz:
 
 ```json
 {

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+
 import { User } from "@/types/user";
 import { updateUser } from "@/services/firebase";
 import { getMotorcycleImage } from "@/utils/motorcycle-images";
+import MotorcycleLogo from "./MotorcycleLogo";
 
 interface EditTagModalProps {
   isOpen: boolean;
@@ -157,7 +158,7 @@ export default function EditTagModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-4xl border border-slate-700 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Tag'i Düzenle</h2>
+          <h2 className="text-2xl font-bold text-white">Tag&apos;i Düzenle</h2>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-white text-2xl"
@@ -262,16 +263,10 @@ export default function EditTagModal({
             {/* Motosiklet Görseli Önizleme */}
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <Image
-                  src={getMotorcycleImage(formData.motorcycleBrand)}
-                  alt={`${formData.motorcycleBrand} motosiklet`}
-                  width={128}
-                  height={128}
-                  className="w-32 h-32 object-contain rounded-lg border-2 border-slate-600 bg-slate-700/50"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      getMotorcycleImage("honda");
-                  }}
+                <MotorcycleLogo
+                  brand={formData.motorcycleBrand}
+                  size="lg"
+                  variant="preview"
                 />
                 <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-800 px-2 py-1 rounded text-xs text-slate-300 border border-slate-600">
                   {

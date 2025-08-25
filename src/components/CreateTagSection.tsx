@@ -6,7 +6,6 @@ import { hasUserTag } from "@/services/firebase";
 import CreateTagForm from "./CreateTagForm";
 import QRCodeDisplay from "./QRCodeDisplay";
 import AuthModal from "./AuthModal";
-import Link from "next/link";
 
 export default function CreateTagSection() {
   const { user, loading } = useAuth();

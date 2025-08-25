@@ -1,0 +1,8 @@
+<svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="80" fill="#0066CC" rx="8"/>
+  <circle cx="60" cy="30" r="15" fill="white" stroke="#0066CC" stroke-width="2"/>
+  <path d="M 45 15 L 75 15 L 75 45 L 45 45 Z" fill="none" stroke="#0066CC" stroke-width="1"/>
+  <path d="M 45 30 L 75 30" stroke="#0066CC" stroke-width="1"/>
+  <path d="M 60 15 L 60 45" stroke="#0066CC" stroke-width="1"/>
+  <text x="60" y="60" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">BMW</text>
+</svg>

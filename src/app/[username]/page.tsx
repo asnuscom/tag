@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { User } from "@/types/user";
 import { themes } from "@/config/themes";
-import usersData from "@/data/users.json";
 import demoUsersData from "@/data/demo-users.json";
 import TagCard from "@/components/TagCard";
 import { getUserByUniqueUrl } from "@/services/firebase";
@@ -19,10 +18,8 @@ export async function generateStaticParams() {
   // Sadece demo kullanıcıları için static params oluştur
   // Dynamic kullanıcılar runtime'da handle edilir
   const demoUsers = demoUsersData as Record<string, User>;
-  const staticUsers = usersData as Record<string, User>;
-  const allStaticUsers = { ...staticUsers, ...demoUsers };
 
-  return Object.keys(allStaticUsers).map((username) => ({
+  return Object.keys(demoUsers).map((username) => ({
     username,
   }));
 }
@@ -39,12 +36,10 @@ export async function generateMetadata({ params }: PageProps) {
     console.error("Firebase kullanıcı getirme hatası:", error);
   }
 
-  // Firebase'de bulunamazsa, statik verilerden ara
+  // Firebase'de bulunamazsa, demo verilerden ara
   if (!user) {
-    const users = usersData as Record<string, User>;
     const demoUsers = demoUsersData as Record<string, User>;
-    const allUsers = { ...users, ...demoUsers };
-    user = allUsers[resolvedParams.username];
+    user = demoUsers[resolvedParams.username];
   }
 
   if (!user) {
@@ -118,22 +113,17 @@ export default async function UserPage({ params }: PageProps) {
     console.error("❌ Firebase kullanıcı getirme hatası:", error);
   }
 
-  // Firebase'de bulunamazsa, statik verilerden ara (demo ve mevcut kullanıcılar için)
+  // Firebase'de bulunamazsa, demo verilerden ara
   if (!user) {
-    console.log("📁 Statik verilerden aranıyor...");
-    const users = usersData as Record<string, User>;
+    console.log("📁 Demo verilerden aranıyor...");
     const demoUsers = demoUsersData as Record<string, User>;
-    const allUsers = { ...users, ...demoUsers };
-    user = allUsers[resolvedParams.username];
+    user = demoUsers[resolvedParams.username];
 
     if (user) {
-      console.log(
-        "✅ Statik veride kullanıcı bulundu:",
-        user.personalInfo.name
-      );
+      console.log("✅ Demo veride kullanıcı bulundu:", user.personalInfo.name);
     } else {
-      console.log("❌ Statik veride de kullanıcı bulunamadı");
-      console.log("🔑 Mevcut statik kullanıcılar:", Object.keys(allUsers));
+      console.log("❌ Demo veride de kullanıcı bulunamadı");
+      console.log("🔑 Mevcut demo kullanıcılar:", Object.keys(demoUsers));
     }
   }
 

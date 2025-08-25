@@ -2,7 +2,8 @@
 
 import { User } from "@/types/user";
 import { ThemeConfig } from "@/config/themes";
-import Image from "next/image";
+
+import MotorcycleLogo from "./MotorcycleLogo";
 
 interface TagCardProps {
   user: User;
@@ -100,12 +101,12 @@ export default function TagCard({ user, theme }: TagCardProps) {
                 }}
               />
             </div>
-            <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 transform -translate-x-1/2 w-36 sm:w-44 md:w-52 lg:w-60">
-              <Image
-                src={user.motorcycle.image}
-                alt={`${user.motorcycle.brand} ${user.motorcycle.model}`}
-                width={240}
-                height={160}
+            <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 transform -translate-x-1/2">
+              <MotorcycleLogo
+                brand={user.motorcycle.brand}
+                model={user.motorcycle.model}
+                size="xl"
+                variant="card"
                 className="pointer-events-none select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
               />
             </div>

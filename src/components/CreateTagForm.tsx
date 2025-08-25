@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,6 +9,7 @@ import { themes } from "@/config/themes";
 import { createUser } from "@/services/firebase";
 import { User } from "@/types/user";
 import { getMotorcycleImage } from "@/utils/motorcycle-images";
+import MotorcycleLogo from "./MotorcycleLogo";
 
 interface CreateTagFormProps {
   onSuccess: (
@@ -317,16 +318,10 @@ export default function CreateTagForm({
           {/* Motosiklet Görseli Önizleme */}
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <Image
-                src={getMotorcycleImage(formData.motorcycleBrand)}
-                alt={`${formData.motorcycleBrand} motosiklet`}
-                width={128}
-                height={128}
-                className="w-32 h-32 object-contain rounded-lg border-2 border-slate-600 bg-slate-700/50"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    getMotorcycleImage("honda");
-                }}
+              <MotorcycleLogo
+                brand={formData.motorcycleBrand}
+                size="lg"
+                variant="preview"
               />
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-800 px-2 py-1 rounded text-xs text-slate-300 border border-slate-600">
                 {

@@ -12,7 +12,7 @@
       "brand": "Honda",
       "model": "CB250R",
       "plate": "34 HND 250",
-      "image": "/assets/motorcycles/honda-cb250r.png"
+      "image": "/assets/logos/honda-logo.svg"
     },
     "emergency": {
       "name": "Yuki Honda",
@@ -35,7 +35,7 @@
       "brand": "Yamaha",
       "model": "YZF-R25",
       "plate": "34 YMH 025",
-      "image": "/assets/motorcycles/yamaha-r25.png"
+      "image": "/assets/logos/yamaha-logo.svg"
     },
     "emergency": {
       "name": "Akiko Yamaha",
@@ -58,7 +58,7 @@
       "brand": "Kawasaki",
       "model": "Ninja 250",
       "plate": "34 KWS 250",
-      "image": "/assets/motorcycles/kawasaki-ninja250.png"
+      "image": "/assets/logos/kawasaki-logo.svg"
     },
     "emergency": {
       "name": "Akiko Kawasaki",
@@ -81,7 +81,7 @@
       "brand": "Suzuki",
       "model": "GSX-R250",
       "plate": "34 SZK 250",
-      "image": "/assets/motorcycles/suzuki-gsxr250.png"
+      "image": "/assets/logos/suzuki-logo.svg"
     },
     "emergency": {
       "name": "Yuki Suzuki",
@@ -104,7 +104,7 @@
       "brand": "BMW",
       "model": "G 310 R",
       "plate": "34 BMW 310",
-      "image": "/assets/motorcycles/bmw-g310r.png"
+      "image": "/assets/logos/bmw-logo.svg"
     },
     "emergency": {
       "name": "Anna Mueller",
@@ -127,7 +127,7 @@
       "brand": "KTM",
       "model": "Duke 250",
       "plate": "34 KTM 250",
-      "image": "/assets/motorcycles/ktm-duke250.png"
+      "image": "/assets/logos/ktm-logo.svg"
     },
     "emergency": {
       "name": "Maria Pierer",
@@ -150,7 +150,7 @@
       "brand": "Ducati",
       "model": "Monster 797",
       "plate": "34 DUC 797",
-      "image": "/assets/motorcycles/ducati-monster797.png"
+      "image": "/assets/logos/ducati-logo.svg"
     },
     "emergency": {
       "name": "Giulia Rossi",
@@ -173,7 +173,7 @@
       "brand": "Aprilia",
       "model": "RS 125",
       "plate": "34 APR 125",
-      "image": "/assets/motorcycles/aprilia-rs125.png"
+      "image": "/assets/logos/aprilia-logo.svg"
     },
     "emergency": {
       "name": "Francesca Bianchi",
@@ -196,7 +196,7 @@
       "brand": "Harley-Davidson",
       "model": "Street 750",
       "plate": "34 HDV 750",
-      "image": "/assets/motorcycles/harley-street750.png"
+      "image": "/assets/logos/harley-logo.png"
     },
     "emergency": {
       "name": "Mary Davidson",
@@ -219,7 +219,7 @@
       "brand": "Triumph",
       "model": "Street Triple 765",
       "plate": "34 TRI 765",
-      "image": "/assets/motorcycles/triumph-street-triple.png"
+      "image": "/assets/logos/triumph-logo.svg"
     },
     "emergency": {
       "name": "Emily Thompson",
@@ -265,7 +265,7 @@
       "brand": "CFMoto",
       "model": "NK 250",
       "plate": "34 CFM 250",
-      "image": "/assets/motorcycles/cfmoto-nk250.png"
+      "image": "/assets/logos/cfmoto-logo.svg"
     },
     "emergency": {
       "name": "Ayşe Çelik",
@@ -288,7 +288,7 @@
       "brand": "Benelli",
       "model": "TNT 25",
       "plate": "34 BNL 025",
-      "image": "/assets/motorcycles/benelli-tnt25.png"
+      "image": "/assets/logos/benelli-logo.svg"
     },
     "emergency": {
       "name": "Maria Benelli",
@@ -311,7 +311,7 @@
       "brand": "Moto Guzzi",
       "model": "V7 III Stone",
       "plate": "34 MGZ 007",
-      "image": "/assets/motorcycles/moto-guzzi-v7.png"
+      "image": "/assets/logos/moto-guzzi-logo.svg"
     },
     "emergency": {
       "name": "Lucia Guzzi",
@@ -334,7 +334,7 @@
       "brand": "MV Agusta",
       "model": "Brutale 800",
       "plate": "34 MVA 800",
-      "image": "/assets/motorcycles/mv-agusta-brutale800.png"
+      "image": "/assets/logos/mv-agusta-logo.svg"
     },
     "emergency": {
       "name": "Elena Castiglioni",
@@ -357,7 +357,7 @@
       "brand": "Indian",
       "model": "Scout Bobber",
       "plate": "34 IND 600",
-      "image": "/assets/motorcycles/indian-scout.png"
+      "image": "/assets/logos/indian-logo.svg"
     },
     "emergency": {
       "name": "White Eagle",
@@ -380,7 +380,7 @@
       "brand": "Royal Enfield",
       "model": "Classic 350",
       "plate": "34 REF 350",
-      "image": "/assets/motorcycles/royal-enfield-classic350.png"
+      "image": "/assets/logos/royal-enfield-logo.svg"
     },
     "emergency": {
       "name": "Priya Patel",
@@ -403,7 +403,7 @@
       "brand": "Jawa",
       "model": "42",
       "plate": "34 JAW 042",
-      "image": "/assets/motorcycles/jawa-42.png"
+      "image": "/assets/logos/jawa-logo.svg"
     },
     "emergency": {
       "name": "Anna Nováková",
@@ -426,7 +426,7 @@
       "brand": "RKS",
       "model": "RS 200",
       "plate": "34 RKS 200",
-      "image": "/assets/motorcycles/rks-rs200.png"
+      "image": "/assets/logos/rks-logo.svg"
     },
     "emergency": {
       "name": "Zeynep Yılmaz",
@@ -449,7 +449,7 @@
       "brand": "Bajaj",
       "model": "Pulsar NS200",
       "plate": "34 BAJ 200",
-      "image": "/assets/motorcycles/bajaj-pulsar.png"
+      "image": "/assets/logos/bajaj-logo.svg"
     },
     "emergency": {
       "name": "Priya Bajaj",

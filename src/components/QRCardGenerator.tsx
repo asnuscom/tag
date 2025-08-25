@@ -7,7 +7,7 @@ import { User } from "@/types/user";
 interface QRCardGeneratorProps {
   userTag: User;
   fullUrl: string;
-  onQRGenerated: (dataUrl: string) => void;
+  onQRGenerated?: (dataUrl: string) => void;
 }
 
 export default function QRCardGenerator({
@@ -45,7 +45,7 @@ export default function QRCardGenerator({
 
       const qrDataUrl = canvas.toDataURL("image/png");
       setQrDataUrl(qrDataUrl);
-      onQRGenerated(qrDataUrl);
+      onQRGenerated?.(qrDataUrl);
 
       // Şimdi tasarımlı kartı oluştur
       await generateDesignedCard(cardCanvas, qrDataUrl);

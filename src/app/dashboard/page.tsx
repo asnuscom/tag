@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserByAuthUid, updateUser } from "@/services/firebase";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { getMotorcycleImage } from "@/utils/motorcycle-images";
+
+import MotorcycleLogo from "@/components/MotorcycleLogo";
 import EditTagModal from "@/components/EditTagModal";
 import QRCodeModal from "@/components/QRCodeModal";
 
@@ -20,17 +20,7 @@ export default function Dashboard() {
   const [showQRModal, setShowQRModal] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!authLoading) {
-      if (!authUser) {
-        router.push("/");
-        return;
-      }
-      loadUserTag();
-    }
-  }, [authUser, authLoading, router]);
-
-  const loadUserTag = async () => {
+  const loadUserTag = useCallback(async () => {
     if (!authUser) return;
 
     try {
@@ -43,7 +33,17 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [authUser]);
+
+  useEffect(() => {
+    if (!authLoading) {
+      if (!authUser) {
+        router.push("/");
+        return;
+      }
+      loadUserTag();
+    }
+  }, [authUser, authLoading, router, loadUserTag]);
 
   const toggleTagStatus = async () => {
     if (!userTag) return;
@@ -243,12 +243,10 @@ export default function Dashboard() {
                       Motosiklet Bilgileri
                     </h3>
                     <div className="flex items-start gap-4">
-                      <Image
-                        src={getMotorcycleImage(userTag.theme)}
-                        alt={`${userTag.motorcycle.brand} motosiklet`}
-                        width={80}
-                        height={80}
-                        className="w-20 h-20 object-contain rounded-lg border border-slate-600 bg-slate-700/50"
+                      <MotorcycleLogo
+                        brand={userTag.motorcycle.brand}
+                        size="md"
+                        variant="dashboard"
                       />
                       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>

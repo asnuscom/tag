@@ -238,8 +238,14 @@ export default function HomePage() {
         </div>
 
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 via-red-500 to-blue-500 bg-clip-text text-transparent">
-            Asnus Tag System
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
+            <span className="bg-gradient-to-r  from-red-500 to-blue-500 bg-clip-text text-transparent">
+              ASNUS
+            </span>
+            <br />
+            <span className="bg-gradient-to-r  from-red-500 to-blue-500 bg-clip-text text-transparent text-2xl sm:text-3xl md:text-4xl">
+              Tag System
+            </span>
           </h1>
           <p className="text-slate-300 text-lg sm:text-xl mb-3 sm:mb-4">
             Premium Motosiklet İletişim Kartları

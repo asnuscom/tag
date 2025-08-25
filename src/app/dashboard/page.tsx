@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getMotorcycleImage } from "@/utils/motorcycle-images";
 import EditTagModal from "@/components/EditTagModal";
+import QRCodeModal from "@/components/QRCodeModal";
 
 export default function Dashboard() {
   const { user: authUser, loading: authLoading } = useAuth();
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -124,7 +126,9 @@ export default function Dashboard() {
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold mb-2">Henüz Tag'iniz Yok</h2>
+              <h2 className="text-xl font-semibold mb-2">
+                Henüz Tag&apos;iniz Yok
+              </h2>
               <p className="text-slate-400 mb-6">
                 Motosikletiniz için özel bir dijital iletişim kartı oluşturun.
               </p>
@@ -156,7 +160,7 @@ export default function Dashboard() {
             <div className="lg:col-span-2">
               <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-semibold">Tag'iniz</h2>
+                  <h2 className="text-xl font-semibold">Tag&apos;iniz</h2>
                   <div className="flex items-center gap-2">
                     <span
                       className={`px-3 py-1 rounded-full text-sm ${
@@ -340,7 +344,7 @@ export default function Dashboard() {
                     target="_blank"
                     className="block w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-center rounded-lg transition-colors duration-200"
                   >
-                    Tag'i Görüntüle
+                    Tag&apos;i Görüntüle
                   </Link>
                 </div>
               </div>
@@ -405,13 +409,26 @@ export default function Dashboard() {
                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                       />
                     </svg>
-                    Tag'i Düzenle
+                    Tag&apos;i Düzenle
+                  </button>
+                  <button
+                    onClick={() => setShowQRModal(true)}
+                    className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M3 11v8h8v-8H3zm2 2h4v4H5v-4zM3 3v8h8V3H3zm2 2h4v4H5V5zm8-2v8h8V3h-8zm2 2h4v4h-4V5zM13 13h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2zm0 4h2v2h-2v-2zm-4 0h2v2h-2v-2z" />
+                    </svg>
+                    QR Kodu Görüntüle
                   </button>
                   <button
                     className="w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors duration-200 opacity-50 cursor-not-allowed"
                     disabled
                   >
-                    Premium'a Yükselt (Yakında)
+                    Premium&apos;a Yükselt (Yakında)
                   </button>
                 </div>
               </div>
@@ -427,6 +444,15 @@ export default function Dashboard() {
             userTag={userTag}
             onSuccess={handleEditSuccess}
             onError={handleEditError}
+          />
+        )}
+
+        {/* QR Code Modal */}
+        {userTag && (
+          <QRCodeModal
+            isOpen={showQRModal}
+            onClose={() => setShowQRModal(false)}
+            userTag={userTag}
           />
         )}
       </div>

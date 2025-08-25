@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { hasUserTag } from "@/services/firebase";
 import CreateTagForm from "./CreateTagForm";
 import QRCodeDisplay from "./QRCodeDisplay";
 import AuthModal from "./AuthModal";
+import Link from "next/link";
 
 export default function CreateTagSection() {
   const { user, loading } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [userHasTag, setUserHasTag] = useState(false);
+  const [checkingTag, setCheckingTag] = useState(false);
   const [createdTag, setCreatedTag] = useState<{
     uniqueUrl: string;
     qrCodeUrl: string;
@@ -21,6 +25,28 @@ export default function CreateTagSection() {
     };
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Kullanıcının tag'i olup olmadığını kontrol et
+  useEffect(() => {
+    const checkUserTag = async () => {
+      if (user && !loading) {
+        setCheckingTag(true);
+        try {
+          const hasTag = await hasUserTag(user.uid);
+          setUserHasTag(hasTag);
+        } catch (error) {
+          console.error("Tag kontrolü hatası:", error);
+        } finally {
+          setCheckingTag(false);
+        }
+      } else if (!user && !loading) {
+        setUserHasTag(false);
+        setCheckingTag(false);
+      }
+    };
+
+    checkUserTag();
+  }, [user, loading]);
 
   const handleFormSuccess = (
     uniqueUrl: string,
@@ -39,6 +65,7 @@ export default function CreateTagSection() {
     });
     setShowForm(false);
     setError(null);
+    setUserHasTag(true); // Kullanıcının artık tag'i var
   };
 
   const handleFormError = (errorMessage: string) => {
@@ -56,6 +83,13 @@ export default function CreateTagSection() {
       setShowAuthModal(true);
       return;
     }
+
+    // Kullanıcının zaten tag'i varsa dashboard'a yönlendir
+    if (userHasTag) {
+      window.location.href = "/dashboard";
+      return;
+    }
+
     setShowForm(true);
   };
 
@@ -212,7 +246,7 @@ export default function CreateTagSection() {
           onClick={handleCreateClick}
           className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2 mx-auto"
         >
-          {loading ? (
+          {loading || checkingTag ? (
             <>
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Yükleniyor...
@@ -233,6 +267,23 @@ export default function CreateTagSection() {
                 />
               </svg>
               Giriş Yaparak Oluştur
+            </>
+          ) : userHasTag ? (
+            <>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+              Panelim
             </>
           ) : (
             <>

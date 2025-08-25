@@ -308,7 +308,7 @@ export default function CreateTagSection() {
         <p className="text-xs text-slate-500 mt-4">
           Oluşturma ücretsizdir • Premium özellikler için{" "}
           <a
-            href="mailto:premium@asnus.com"
+            href="mailto:ihsansunman@asnus.com"
             className="text-blue-400 hover:text-blue-300 underline"
           >
             iletişime geçin

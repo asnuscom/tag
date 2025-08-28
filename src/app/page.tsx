@@ -4,6 +4,11 @@ import { themes } from "@/config/themes";
 import CreateTagSection from "@/components/CreateTagSection";
 import AuthButtons from "@/components/AuthButtons";
 
+// Development için admin setup utility'yi import et
+if (process.env.NODE_ENV === 'development') {
+  import('@/utils/admin-setup');
+}
+
 export const metadata: Metadata = {
   title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
   description:

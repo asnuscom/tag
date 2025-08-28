@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 import { themes } from "@/config/themes";
 import demoUsersData from "@/data/demo-users.json";
 import TagCard from "@/components/TagCard";
-import { getUserByUniqueUrl } from "@/services/firebase";
+import { getTagByUrl } from "@/services/tagService";
 
 interface PageProps {
   params: Promise<{
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
   let user: User | null = null;
 
   try {
-    user = await getUserByUniqueUrl(resolvedParams.username);
+    user = await getTagByUrl(resolvedParams.username);
   } catch (error) {
     console.error("Firebase kullanıcı getirme hatası:", error);
   }
@@ -103,7 +103,7 @@ export default async function UserPage({ params }: PageProps) {
 
   try {
     console.log("🔥 Firebase'den kullanıcı aranıyor...");
-    user = await getUserByUniqueUrl(resolvedParams.username);
+    user = await getTagByUrl(resolvedParams.username);
     if (user) {
       console.log("✅ Firebase'de kullanıcı bulundu:", user.personalInfo.name);
     } else {

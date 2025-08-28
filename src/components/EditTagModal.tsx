@@ -2,46 +2,51 @@
 
 import { useState } from "react";
 
-import { User } from "@/types/user";
-import { updateUser } from "@/services/firebase";
+import { Tag } from "@/types/user";
+import { updateTag } from "@/services/tagService";
+import { useAuth } from "@/contexts/AuthContext";
 import { getMotorcycleImage } from "@/utils/motorcycle-images";
 import MotorcycleLogo from "./MotorcycleLogo";
 
 interface EditTagModalProps {
   isOpen: boolean;
   onClose: () => void;
-  userTag: User;
-  onSuccess: (updatedUser: User) => void;
+  tag: Tag;
+  onSuccess: () => void;
   onError: (error: string) => void;
 }
 
 export default function EditTagModal({
   isOpen,
   onClose,
-  userTag,
+  tag,
   onSuccess,
   onError,
 }: EditTagModalProps) {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    // Tag bilgileri
+    tagName: tag.name,
+    
     // Kişisel bilgiler
-    name: userTag.personalInfo.name,
-    phone: userTag.personalInfo.phone,
-    email: userTag.personalInfo.email,
-    instagram: userTag.personalInfo.instagram,
-    bloodType: userTag.personalInfo.bloodType,
+    name: tag.personalInfo.name,
+    phone: tag.personalInfo.phone,
+    email: tag.personalInfo.email,
+    instagram: tag.personalInfo.instagram,
+    bloodType: tag.personalInfo.bloodType,
 
     // Motosiklet bilgileri
-    motorcycleBrand: userTag.theme,
-    motorcycleModel: userTag.motorcycle.model,
-    plate: userTag.motorcycle.plate,
+    motorcycleBrand: tag.theme,
+    motorcycleModel: tag.motorcycle.model,
+    plate: tag.motorcycle.plate,
 
     // Acil durum
-    emergencyName: userTag.emergency.name,
-    emergencyPhone: userTag.emergency.phone,
+    emergencyName: tag.emergency.name,
+    emergencyPhone: tag.emergency.phone,
 
     // Diğer
-    note: userTag.note,
+    note: tag.note,
   });
 
   const motorcycleBrands = [
@@ -84,6 +89,7 @@ export default function EditTagModal({
   };
 
   const validateForm = (): string | null => {
+    if (!formData.tagName.trim()) return "Tag adı zorunludur";
     if (!formData.name.trim()) return "İsim alanı zorunludur";
     if (!formData.phone.trim()) return "Telefon alanı zorunludur";
     if (!formData.email.trim()) return "E-posta alanı zorunludur";
@@ -109,8 +115,14 @@ export default function EditTagModal({
     setLoading(true);
 
     try {
-      // Güncellenecek kullanıcı verilerini hazırla
-      const updatedUserData = {
+      if (!user) {
+        onError('Oturum açılmış kullanıcı bulunamadı.');
+        return;
+      }
+
+      // Güncellenecek tag verilerini hazırla
+      const updatedTagData = {
+        name: formData.tagName,
         personalInfo: {
           name: formData.name,
           phone: formData.phone,
@@ -119,9 +131,7 @@ export default function EditTagModal({
           bloodType: formData.bloodType,
         },
         motorcycle: {
-          brand:
-            motorcycleBrands.find((b) => b.value === formData.motorcycleBrand)
-              ?.label || "Honda",
+          brand: formData.motorcycleBrand,
           model: formData.motorcycleModel,
           plate: formData.plate,
           image: getMotorcycleImage(formData.motorcycleBrand),
@@ -130,21 +140,14 @@ export default function EditTagModal({
           name: formData.emergencyName,
           phone: formData.emergencyPhone,
         },
-        theme: formData.motorcycleBrand as User["theme"],
+        theme: formData.motorcycleBrand as Tag["theme"],
         note: formData.note,
       };
 
-      // Kullanıcıyı güncelle
-      await updateUser(userTag.id, updatedUserData);
+      // Tag'ı güncelle
+      await updateTag(tag.id, updatedTagData);
 
-      // Güncellenmiş kullanıcı nesnesini oluştur
-      const updatedUser: User = {
-        ...userTag,
-        ...updatedUserData,
-        updatedAt: new Date(),
-      };
-
-      onSuccess(updatedUser);
+      onSuccess();
       onClose();
     } catch (error) {
       console.error("Tag güncelleme hatası:", error);
@@ -168,6 +171,28 @@ export default function EditTagModal({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Tag Bilgileri */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">
+              Tag Bilgileri
+            </h3>
+            
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                Tag Adı *
+              </label>
+              <input
+                type="text"
+                name="tagName"
+                value={formData.tagName}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Kişisel Tag, İş Tag, vb."
+                required
+              />
+            </div>
+          </div>
+
           {/* Kişisel Bilgiler */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">

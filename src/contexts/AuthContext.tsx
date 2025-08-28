@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import {
   User as FirebaseUser,
   signInWithEmailAndPassword,
@@ -10,6 +10,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
+import { useUserStore } from "@/store/userStore";
+import { createUser } from "@/services/userService";
 
 interface AuthUser {
   uid: string;
@@ -45,29 +47,25 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { 
+    authUser, 
+    authLoading, 
+    setAuthUser, 
+    setAuthLoading, 
+    clearUser 
+  } = useUserStore();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (firebaseUser: FirebaseUser | null) => {
-        if (firebaseUser) {
-          setUser({
-            uid: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
-            photoURL: firebaseUser.photoURL,
-          });
-        } else {
-          setUser(null);
-        }
-        setLoading(false);
+        setAuthUser(firebaseUser);
+        setAuthLoading(false);
       }
     );
 
     return () => unsubscribe();
-  }, []);
+  }, [setAuthUser, setAuthLoading]);
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -93,6 +91,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (displayName && firebaseUser) {
         await updateProfile(firebaseUser, { displayName });
       }
+
+      // Firestore'a kullanıcı kaydı oluştur
+      if (firebaseUser) {
+        await createUser(
+          firebaseUser.uid,
+          firebaseUser.email || email,
+          displayName || firebaseUser.displayName
+        );
+      }
     } catch (error) {
       console.error("Kayıt hatası:", error);
       throw error;
@@ -102,15 +109,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = async (): Promise<void> => {
     try {
       await signOut(auth);
+      clearUser();
     } catch (error) {
       console.error("Çıkış hatası:", error);
       throw error;
     }
   };
 
+  // Backward compatibility için AuthUser formatına çevir
+  const user: AuthUser | null = authUser ? {
+    uid: authUser.uid,
+    email: authUser.email,
+    displayName: authUser.displayName,
+    photoURL: authUser.photoURL,
+  } : null;
+
   const value: AuthContextType = {
     user,
-    loading,
+    loading: authLoading,
     signIn,
     signUp,
     logout,

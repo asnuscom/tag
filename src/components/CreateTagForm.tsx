@@ -1,27 +1,19 @@
 "use client";
 
-import { useState, useRef } from "react";
-
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserStore } from "@/store/userStore";
 import { themes } from "@/config/themes";
-import { createUser } from "@/services/firebase";
-import { User } from "@/types/user";
+import { canUserCreateTag } from "@/services/userService";
+import { createTag } from "@/services/tagService";
+import { User, Tag } from "@/types/user";
 import { getMotorcycleImage } from "@/utils/motorcycle-images";
 import MotorcycleLogo from "./MotorcycleLogo";
 
 interface CreateTagFormProps {
-  onSuccess: (
-    uniqueUrl: string,
-    qrCodeUrl: string,
-    userInfo: {
-      name: string;
-      motorcycleBrand: string;
-      motorcycleModel: string;
-      motorcycleImage: string;
-    }
-  ) => void;
+  onSuccess: (tag: Tag) => void;
   onError: (error: string) => void;
 }
 
@@ -30,8 +22,14 @@ export default function CreateTagForm({
   onError,
 }: CreateTagFormProps) {
   const { user } = useAuth();
+  const { currentUser, userLoading, isPremium } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [canCreate, setCanCreate] = useState(true);
+  const [limitMessage, setLimitMessage] = useState<string>('');
   const [formData, setFormData] = useState({
+    // Tag bilgileri
+    tagName: "",
+    
     // Kişisel bilgiler
     name: "",
     phone: "",
@@ -80,6 +78,29 @@ export default function CreateTagForm({
 
   const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-"];
 
+  // Tag oluşturma limitini kontrol et
+  useEffect(() => {
+    const checkTagLimit = async () => {
+      if (!currentUser) {
+        setCanCreate(false);
+        setLimitMessage('Kullanıcı bilgileri yükleniyor...');
+        return;
+      }
+      
+      try {
+        const canCreateResult = await canUserCreateTag(currentUser.id);
+        setCanCreate(canCreateResult.canCreate);
+        setLimitMessage(canCreateResult.reason || '');
+      } catch (error) {
+        console.error("Tag limit kontrolü hatası:", error);
+        setCanCreate(false);
+        setLimitMessage('Tag limit kontrolünde hata oluştu.');
+      }
+    };
+
+    checkTagLimit();
+  }, [currentUser]);
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -102,6 +123,7 @@ export default function CreateTagForm({
   };
 
   const validateForm = (): string | null => {
+    if (!formData.tagName.trim()) return "Tag adı zorunludur";
     if (!formData.name.trim()) return "İsim alanı zorunludur";
     if (!formData.phone.trim()) return "Telefon alanı zorunludur";
     if (!formData.email.trim()) return "E-posta alanı zorunludur";
@@ -128,7 +150,13 @@ export default function CreateTagForm({
     // reCAPTCHA kontrolü
     const recaptchaToken = recaptchaRef.current?.getValue();
     if (!recaptchaToken) {
-      onError("Lütfen reCAPTCHA&apos;yı tamamlayın");
+      onError("Lütfen reCAPTCHA'yı tamamlayın");
+      return;
+    }
+
+    // Kullanıcı verileri yüklenme kontrolü
+    if (userLoading) {
+      onError("Kullanıcı verileri henüz yükleniyor, lütfen bekleyin...");
       return;
     }
 
@@ -141,9 +169,21 @@ export default function CreateTagForm({
         return;
       }
 
-      // Kullanıcı verilerini hazırla
-      const userData = {
-        authUid: user.uid, // Firebase Auth UID'si ekle
+      // Kullanıcı verisi kontrolü
+      if (!currentUser || !currentUser.id) {
+        onError("Kullanıcı bilgileri yüklenemedi. Lütfen sayfayı yenileyin.");
+        return;
+      }
+
+      // Limit kontrolü
+      if (!canCreate) {
+        onError(limitMessage || 'Tag oluşturma limitinize ulaştınız.');
+        return;
+      }
+
+      // Tag verilerini hazırla
+      const tagData = {
+        name: formData.tagName,
         personalInfo: {
           name: formData.name,
           phone: formData.phone,
@@ -152,9 +192,7 @@ export default function CreateTagForm({
           bloodType: formData.bloodType,
         },
         motorcycle: {
-          brand:
-            motorcycleBrands.find((b) => b.value === formData.motorcycleBrand)
-              ?.label || "Honda",
+          brand: formData.motorcycleBrand,
           model: formData.motorcycleModel,
           plate: formData.plate,
           image: getMotorcycleImage(formData.motorcycleBrand),
@@ -163,28 +201,20 @@ export default function CreateTagForm({
           name: formData.emergencyName,
           phone: formData.emergencyPhone,
         },
-        theme: formData.motorcycleBrand as User["theme"],
-        tag: "USER",
+        theme: formData.motorcycleBrand as Tag['theme'],
         note: formData.note,
-        isPremium: false as boolean,
-        showAds: true as boolean,
+        name: formData.tagName,
       };
 
-      // Kullanıcıyı oluştur
-      const result = await createUser(userData);
+      // Tag'ı oluştur (Firestore kullanıcı ID'sini kullan)
+      const newTag = await createTag(currentUser.id, tagData);
 
-      // Başarı callback&apos;ini çağır
-      onSuccess(result.uniqueUrl, result.qrCodeUrl, {
-        name: formData.name,
-        motorcycleBrand:
-          motorcycleBrands.find((b) => b.value === formData.motorcycleBrand)
-            ?.label || "Honda",
-        motorcycleModel: formData.motorcycleModel,
-        motorcycleImage: getMotorcycleImage(formData.motorcycleBrand),
-      });
+      // Başarı callback'ini çağır
+      onSuccess(newTag);
 
       // Formu temizle
       setFormData({
+        tagName: "",
         name: "",
         phone: "",
         email: "",
@@ -200,9 +230,12 @@ export default function CreateTagForm({
       });
 
       recaptchaRef.current?.reset();
-    } catch (error) {
+      
+      // Kullanıcı durumunu yeniden kontrol et
+      
+    } catch (error: any) {
       console.error("Tag oluşturma hatası:", error);
-      onError("Tag oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.");
+      onError(error.message || "Tag oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setIsLoading(false);
     }
@@ -214,15 +247,77 @@ export default function CreateTagForm({
     <div className="max-w-2xl mx-auto bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 md:p-8">
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Kendi Tag&apos;inizi Oluşturun
+          Yeni Tag Oluşturun
         </h2>
         <p className="text-slate-300">
-          Motosikletiniz için özel tasarlanmış dijital iletişim kartınızı
-          oluşturun
+          Motosikletiniz için yeni bir dijital iletişim kartı oluşturun
         </p>
+        
+        {/* Kullanıcı Durumu */}
+        {currentUser && (
+          <div className="mt-4 p-4 bg-slate-700/30 rounded-lg">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-400">Sahip olduğunuz tag sayısı:</span>
+              <span className="text-white font-medium">
+                {currentUser.tags?.length || 0} / {isPremium ? '∞' : currentUser.maxTags}
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-sm mt-1">
+              <span className="text-slate-400">Üyelik:</span>
+              <span className={`font-medium ${
+                isPremium 
+                  ? 'text-yellow-400' 
+                  : 'text-slate-400'
+              }`}>
+                {isPremium ? 'Premium' : 'Ücretsiz'}
+              </span>
+            </div>
+            {!canCreate && (
+              <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-sm">
+                {limitMessage}
+                {!isPremium && (
+                  <div className="mt-2">
+                    <Link 
+                      href="/premium" 
+                      className="text-yellow-400 hover:text-yellow-300 underline"
+                    >
+                      Premium'a Geçin
+                    </Link>
+                    {' '}ve sınırsız tag oluşturun!
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Tag Bilgileri */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">
+            Tag Bilgileri
+          </h3>
+          
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Tag Adı *
+            </label>
+            <input
+              type="text"
+              name="tagName"
+              value={formData.tagName}
+              onChange={handleInputChange}
+              className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Kişisel Tag, İş Tag, vb."
+              required
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              Bu isim sadece kendi taglarınızı ayırt etmeniz için kullanılır
+            </p>
+          </div>
+        </div>
+
         {/* Kişisel Bilgiler */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">
@@ -481,10 +576,10 @@ export default function CreateTagForm({
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !canCreate}
           className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           style={{
-            background: isLoading
+            background: (isLoading || !canCreate)
               ? undefined
               : `linear-gradient(135deg, ${selectedTheme.colors.primary}, ${selectedTheme.colors.secondary})`,
           }}
@@ -493,6 +588,13 @@ export default function CreateTagForm({
             <>
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Tag Oluşturuluyor...
+            </>
+          ) : !canCreate ? (
+            <>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+              {currentUser?.isPremium ? 'Bir hata oluştu' : 'Premium Gerekli'}
             </>
           ) : (
             <>

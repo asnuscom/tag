@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 
@@ -20,6 +21,7 @@ const app = initializeApp(firebaseConfig);
 
 // Firebase servislerini dışa aktar
 export const database = getDatabase(app);
+export const firestore = getFirestore(app);
 export const auth = getAuth(app);
 
 // Analytics'i sadece client-side'da başlat

@@ -1,23 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { User } from "@/types/user";
+import { Tag } from "@/types/user";
 import QRCardGenerator from "./QRCardGenerator";
 
 interface QRCodeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  userTag: User;
+  tag: Tag;
 }
 
 export default function QRCodeModal({
   isOpen,
   onClose,
-  userTag,
+  tag,
 }: QRCodeModalProps) {
   const fullUrl = `${
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"
-  }${userTag.uniqueUrl}`;
+  }/${tag.uniqueUrl}`;
 
   const copyToClipboard = async () => {
     try {
@@ -50,28 +50,28 @@ export default function QRCodeModal({
             <div className="flex justify-center mb-4">
               <div className="relative">
                 <Image
-                  src={userTag.motorcycle.image}
-                  alt={`${userTag.motorcycle.brand} ${userTag.motorcycle.model}`}
+                  src={tag.motorcycle.image}
+                  alt={`${tag.motorcycle.brand} ${tag.motorcycle.model}`}
                   width={80}
                   height={60}
                   className="object-contain rounded-lg bg-slate-700/30 p-2"
                 />
                 <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-800 px-2 py-1 rounded text-xs text-slate-300 border border-slate-600">
-                  {userTag.motorcycle.brand}
+                  {tag.motorcycle.brand}
                 </div>
               </div>
             </div>
             <h3 className="text-lg font-semibold text-white mb-1">
-              {userTag.personalInfo.name}
+              {tag.personalInfo.name}
             </h3>
             <p className="text-slate-400 text-sm">
-              {userTag.motorcycle.brand} {userTag.motorcycle.model} •{" "}
-              {userTag.motorcycle.plate}
+              {tag.motorcycle.brand} {tag.motorcycle.model} •{" "}
+              {tag.motorcycle.plate}
             </p>
           </div>
 
           {/* QR Kod Generator */}
-          <QRCardGenerator userTag={userTag} fullUrl={fullUrl} />
+          <QRCardGenerator tag={tag} fullUrl={fullUrl} />
 
           {/* URL Bilgisi */}
           <div className="bg-slate-700/50 rounded-lg p-3 mb-4">
@@ -104,7 +104,7 @@ export default function QRCodeModal({
             </button>
 
             <a
-              href={`/${userTag.uniqueUrl}`}
+              href={`/${tag.uniqueUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2 text-sm"

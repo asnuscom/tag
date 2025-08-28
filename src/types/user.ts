@@ -21,11 +21,11 @@ export interface Emergency {
 // Tek bir Tag (Tag) interface'i - Firestore için
 export interface Tag {
   id: string;
-  userId: string; // Tag'in sahibi kullanıcının ID'si
+  userId: string; // Tag'in sahibi kullanıcının ID'si (boş ise sahipsiz)
   personalInfo: PersonalInfo;
   motorcycle: Motorcycle;
   emergency: Emergency;
-  theme: 'honda' | 'yamaha' | 'kawasaki' | 'suzuki' | 'bmw' | 'ktm' | 'ducati' | 'aprilia' | 'harley' | 'triumph' | 'husqvarna' | 'cfmoto' | 'benelli' | 'moto_guzzi' | 'mv_agusta' | 'indian' | 'royal_enfield' | 'jawa' | 'rks' | 'bajaj';
+  theme: 'honda' | 'yamaha' | 'kawasaki' | 'suzuki' | 'bmw' | 'ktm' | 'ducati' | 'aprilia' | 'harley' | 'triumph' | 'husqvarna' | 'cfmoto' | 'benelli' | 'moto_guzzi' | 'mv_agusta' | 'indian' | 'royal_enfield' | 'jawa' | 'rks' | 'bajaj' | 'generic';
   tag: string;
   note: string;
   uniqueUrl: string; // Random oluşturulan URL
@@ -34,6 +34,7 @@ export interface Tag {
   qrCodeUrl?: string; // QR kod resim URL'si
   isActive: boolean; // Tag aktif durumu
   name: string; // Tag adı (kullanıcı tarafından belirlenen)
+  isClaimed?: boolean; // Tag sahiplenilmiş mi (markasız taglar için)
 }
 
 // Kullanıcı interface'i - Firestore için

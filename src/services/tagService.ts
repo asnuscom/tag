@@ -420,3 +420,289 @@ export const deleteAllUserTags = async (userId: string): Promise<void> => {
     throw new Error('Kullanıcının tag\'leri silinemedi');
   }
 };
+
+// Markasız tag oluşturma (Admin işlemi - sahipsiz)
+export const createBrandlessTag = async (): Promise<Tag> => {
+  try {
+    const newTagData = {
+      userId: '', // Boş - henüz sahip yok
+      name: 'Sahipsiz Tag',
+      personalInfo: {
+        name: '',
+        phone: '',
+        email: '',
+        instagram: '',
+        bloodType: 'A+'
+      },
+      motorcycle: {
+        brand: 'generic',
+        model: '',
+        plate: '',
+        image: '/images/generic-motorcycle.png'
+      },
+      emergency: {
+        name: '',
+        phone: ''
+      },
+      theme: 'generic' as Tag['theme'],
+      note: '',
+      uniqueUrl: generateUniqueUrl(),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      isActive: false, // Sahiplenene kadar pasif
+      isClaimed: false // Henüz sahiplenilmedi
+    };
+    
+    const tagsCollection = collection(firestore, TAGS_COLLECTION);
+    const docRef = await addDoc(tagsCollection, newTagData);
+    
+    return {
+      id: docRef.id,
+      userId: '',
+      name: 'Sahipsiz Tag',
+      personalInfo: newTagData.personalInfo,
+      motorcycle: newTagData.motorcycle,
+      emergency: newTagData.emergency,
+      theme: 'generic',
+      note: '',
+      uniqueUrl: newTagData.uniqueUrl,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isActive: false,
+      isClaimed: false
+    };
+  } catch (error) {
+    console.error('Markasız tag oluşturma hatası:', error);
+    throw new Error('Markasız tag oluşturulamadı');
+  }
+};
+
+// Tag sahiplendirme (Claim)
+export const claimTag = async (
+  tagId: string,
+  userId: string,
+  tagData: {
+    name: string;
+    personalInfo: any;
+    motorcycle: any;
+    emergency: any;
+    theme: Tag['theme'];
+    note: string;
+  }
+): Promise<Tag> => {
+  try {
+    const tagDoc = doc(firestore, TAGS_COLLECTION, tagId);
+    
+    // Önce tag'in sahipsiz olduğunu kontrol et
+    const tagSnapshot = await getDoc(tagDoc);
+    if (!tagSnapshot.exists()) {
+      throw new Error('Tag bulunamadı');
+    }
+    
+    const currentData = tagSnapshot.data();
+    if (currentData.isClaimed || currentData.userId) {
+      throw new Error('Bu tag zaten sahiplenilmiş');
+    }
+    
+    const updateData = {
+      userId,
+      name: tagData.name,
+      personalInfo: tagData.personalInfo,
+      motorcycle: tagData.motorcycle,
+      emergency: tagData.emergency,
+      theme: tagData.theme,
+      note: tagData.note,
+      isActive: true,
+      isClaimed: true,
+      updatedAt: serverTimestamp()
+    };
+    
+    await updateDoc(tagDoc, updateData);
+    
+    return {
+      id: tagId,
+      userId,
+      name: tagData.name,
+      personalInfo: tagData.personalInfo,
+      motorcycle: tagData.motorcycle,
+      emergency: tagData.emergency,
+      theme: tagData.theme,
+      note: tagData.note,
+      uniqueUrl: currentData.uniqueUrl,
+      createdAt: currentData.createdAt?.toDate() || new Date(),
+      updatedAt: new Date(),
+      isActive: true,
+      isClaimed: true
+    };
+  } catch (error) {
+    console.error('Tag sahiplendirme hatası:', error);
+    throw error;
+  }
+};
+
+// Unique URL ile tag getirme
+export const getTagByUniqueUrl = async (uniqueUrl: string): Promise<Tag | null> => {
+  try {
+    const tagsCollection = collection(firestore, TAGS_COLLECTION);
+    const q = query(tagsCollection, where('uniqueUrl', '==', uniqueUrl));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      return null;
+    }
+    
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+    
+    return {
+      id: doc.id,
+      userId: data.userId || '',
+      name: data.name || '',
+      personalInfo: data.personalInfo || {},
+      motorcycle: data.motorcycle || {},
+      emergency: data.emergency || {},
+      theme: data.theme || 'generic',
+      tag: data.tag || '',
+      note: data.note || '',
+      uniqueUrl: data.uniqueUrl,
+      createdAt: data.createdAt?.toDate() || new Date(),
+      updatedAt: data.updatedAt?.toDate() || new Date(),
+      qrCodeUrl: data.qrCodeUrl,
+      isActive: data.isActive !== false,
+      isClaimed: data.isClaimed || false
+    };
+  } catch (error) {
+    console.error('Unique URL ile tag getirme hatası:', error);
+    throw new Error('Tag getirilemedi');
+  }
+};
+
+// Toplu markasız tag oluşturma (Admin işlemi)
+export const createBulkBrandlessTags = async (count: number): Promise<Tag[]> => {
+  if (count < 1 || count > 100) {
+    throw new Error('Tag sayısı 1-100 arasında olmalıdır');
+  }
+
+  try {
+    const tagsCollection = collection(firestore, TAGS_COLLECTION);
+    const createdTags: Tag[] = [];
+    
+    // Batch işlemi için
+    const promises = [];
+    
+    for (let i = 0; i < count; i++) {
+      const newTagData = {
+        userId: '', // Boş - henüz sahip yok
+        name: 'Sahipsiz Tag',
+        personalInfo: {
+          name: '',
+          phone: '',
+          email: '',
+          instagram: '',
+          bloodType: 'A+'
+        },
+        motorcycle: {
+          brand: 'generic',
+          model: '',
+          plate: '',
+          image: '/images/generic-motorcycle.png'
+        },
+        emergency: {
+          name: '',
+          phone: ''
+        },
+        theme: 'generic' as Tag['theme'],
+        note: '',
+        uniqueUrl: generateUniqueUrl(),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        isActive: false, // Sahiplenene kadar pasif
+        isClaimed: false // Henüz sahiplenilmedi
+      };
+      
+      promises.push(addDoc(tagsCollection, newTagData));
+    }
+    
+    const docRefs = await Promise.all(promises);
+    
+    // Sonuçları Tag formatına çevir
+    docRefs.forEach((docRef, index) => {
+      createdTags.push({
+        id: docRef.id,
+        userId: '',
+        name: 'Sahipsiz Tag',
+        personalInfo: {
+          name: '',
+          phone: '',
+          email: '',
+          instagram: '',
+          bloodType: 'A+'
+        },
+        motorcycle: {
+          brand: 'generic',
+          model: '',
+          plate: '',
+          image: '/images/generic-motorcycle.png'
+        },
+        emergency: {
+          name: '',
+          phone: ''
+        },
+        theme: 'generic',
+        note: '',
+        uniqueUrl: `generated_${docRef.id}`, // Gerçek uniqueUrl için tekrar sorgu gerekecek
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isActive: false,
+        isClaimed: false
+      });
+    });
+    
+    return createdTags;
+  } catch (error) {
+    console.error('Toplu markasız tag oluşturma hatası:', error);
+    throw new Error('Toplu markasız tag oluşturulamadı');
+  }
+};
+
+// Sahipsiz tagları getirme (Admin için)
+export const getUnclaimedTags = async (): Promise<Tag[]> => {
+  try {
+    const tagsCollection = collection(firestore, TAGS_COLLECTION);
+    const q = query(
+      tagsCollection, 
+      where('isClaimed', '==', false),
+      where('userId', '==', ''),
+      orderBy('createdAt', 'desc')
+    );
+    const querySnapshot = await getDocs(q);
+    
+    const tags: Tag[] = [];
+    
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      tags.push({
+        id: doc.id,
+        userId: data.userId || '',
+        name: data.name || 'Sahipsiz Tag',
+        personalInfo: data.personalInfo || {},
+        motorcycle: data.motorcycle || {},
+        emergency: data.emergency || {},
+        theme: data.theme || 'generic',
+        tag: data.tag || '',
+        note: data.note || '',
+        uniqueUrl: data.uniqueUrl,
+        createdAt: data.createdAt?.toDate() || new Date(),
+        updatedAt: data.updatedAt?.toDate() || new Date(),
+        qrCodeUrl: data.qrCodeUrl,
+        isActive: data.isActive !== false,
+        isClaimed: data.isClaimed || false
+      });
+    });
+    
+    return tags;
+  } catch (error) {
+    console.error('Sahipsiz taglar getirme hatası:', error);
+    throw new Error('Sahipsiz taglar getirilemedi');
+  }
+};

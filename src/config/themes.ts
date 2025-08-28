@@ -293,5 +293,19 @@ export const themes: Record<string, ThemeConfig> = {
       background: 'radial-gradient(1200px 600px at 70% -10%, rgba(255,107,53,0.08), transparent 60%), radial-gradient(900px 500px at -10% 110%, rgba(255,215,0,0.06), transparent 60%), linear-gradient(180deg, #0a0f14 0%, #1a1a1a 100%)',
       card: 'from-slate-900 via-orange-900 to-slate-900'
     }
+  },
+  generic: {
+    name: 'Genel',
+    colors: {
+      primary: '#6B7280',
+      secondary: '#9CA3AF',
+      accent: '#10B981',
+      background: '#111827',
+      surface: '#1F2937'
+    },
+    gradients: {
+      background: 'radial-gradient(1200px 600px at 70% -10%, rgba(107,114,128,0.08), transparent 60%), radial-gradient(900px 500px at -10% 110%, rgba(16,185,129,0.06), transparent 60%), linear-gradient(180deg, #111827 0%, #1F2937 100%)',
+      card: 'from-slate-900 via-gray-800 to-slate-900'
+    }
   }
 };

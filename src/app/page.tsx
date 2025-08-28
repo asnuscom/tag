@@ -1,22 +1,49 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Metadata } from "next";
 import { themes } from "@/config/themes";
 import CreateTagSection from "@/components/CreateTagSection";
 import AuthButtons from "@/components/AuthButtons";
 
-export default function HomePage() {
-  const searchParams = useSearchParams();
-  const [showAuthModal, setShowAuthModal] = useState<'signin' | 'signup' | null>(null);
+export const metadata: Metadata = {
+  title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
+  description:
+    "Dünyanın en prestijli motosiklet markaları için özel tasarlanmış, kişiselleştirilmiş dijital iletişim kartları. Honda, Yamaha, BMW, Ducati ve daha fazlası.",
+  keywords:
+    "motosiklet, iletişim kartı, dijital kart, asnus, honda, yamaha, bmw, ducati, kawasaki, suzuki, ktm, triumph, harley davidson",
+  authors: [{ name: "Asnus", url: "https://asnus.com" }],
+  creator: "Asnus",
+  publisher: "Asnus",
+  robots: "index, follow",
+  openGraph: {
+    title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
+    description:
+      "Dünyanın en prestijli motosiklet markaları için özel tasarlanmış, kişiselleştirilmiş dijital iletişim kartları.",
+    type: "website",
+    url: "https://tag.asnus.com",
+    siteName: "Asnus Tag System",
+    images: [
+      {
+        url: "/api/og-image",
+        width: 1200,
+        height: 630,
+        alt: "Asnus Tag System - Premium Motosiklet İletişim Kartları",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Asnus Tag System • Premium Motosiklet İletişim Kartları",
+    description:
+      "Dünyanın en prestijli motosiklet markaları için özel tasarlanmış, kişiselleştirilmiş dijital iletişim kartları.",
+    images: ["/api/og-image"],
+    creator: "@asnus",
+  },
+  alternates: {
+    canonical: "https://tag.asnus.com",
+  },
+};
 
-  useEffect(() => {
-    const authParam = searchParams.get('auth');
-    if (authParam === 'signin' || authParam === 'signup') {
-      setShowAuthModal(authParam);
-    }
-  }, [searchParams]);
+export default function HomePage() {
   // Popülerlikten az bilinene doğru sıralama
   const brands = [
     {

@@ -1,27 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserStore } from "@/store/userStore";
-import AuthModal from "./AuthModal";
 import Link from "next/link";
 
 export default function AuthButtons() {
   const { user, logout, loading } = useAuth();
   const { currentUser, userLoading, isAdmin } = useUserStore();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
-
-
-  const handleSignIn = () => {
-    setAuthMode("signin");
-    setShowAuthModal(true);
-  };
-
-  const handleSignUp = () => {
-    setAuthMode("signup");
-    setShowAuthModal(true);
-  };
 
   const handleLogout = async () => {
     try {
@@ -133,27 +118,19 @@ export default function AuthButtons() {
   }
 
   return (
-    <>
-      <div className="flex items-center gap-2">
-        <button
-          onClick={handleSignIn}
-          className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-        >
-          Giriş Yap
-        </button>
-        <button
-          onClick={handleSignUp}
-          className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-        >
-          Kayıt Ol
-        </button>
-      </div>
-
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        initialMode={authMode}
-      />
-    </>
+    <div className="flex items-center gap-2">
+      <Link
+        href="/login"
+        className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+      >
+        Giriş Yap
+      </Link>
+      <Link
+        href="/signup"
+        className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+      >
+        Kayıt Ol
+      </Link>
+    </div>
   );
 }

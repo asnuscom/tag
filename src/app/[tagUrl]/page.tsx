@@ -121,13 +121,13 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
               </p>
               <div className="space-y-3">
                 <a
-                  href="/?auth=signin"
+                  href={`/login?returnUrl=${encodeURIComponent(`/${urlParam}`)}`}
                   className="block w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
                 >
                   Giriş Yap
                 </a>
                 <a
-                  href="/?auth=signup"
+                  href={`/signup?returnUrl=${encodeURIComponent(`/${urlParam}`)}`}
                   className="block w-full px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors duration-200"
                 >
                   Üye Ol

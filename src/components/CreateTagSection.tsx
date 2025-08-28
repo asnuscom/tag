@@ -7,12 +7,12 @@ import { getUserTags } from "@/services/tagService";
 import { Tag } from "@/types/user";
 import CreateTagForm from "./CreateTagForm";
 import QRCodeDisplay from "./QRCodeDisplay";
-import AuthModal from "./AuthModal";
+import { useRouter } from "next/navigation";
 
 export default function CreateTagSection() {
   const { user, loading } = useAuth();
+  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [userTags, setUserTags] = useState<Tag[]>([]);
   const [canCreate, setCanCreate] = useState(true);
   const [limitMessage, setLimitMessage] = useState('');
@@ -83,7 +83,7 @@ export default function CreateTagSection() {
 
   const handleCreateClick = () => {
     if (!user) {
-      setShowAuthModal(true);
+      router.push('/login');
       return;
     }
 
@@ -390,12 +390,6 @@ export default function CreateTagSection() {
         </div>
       </div>
 
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        initialMode="signup"
-      />
     </div>
   );
 }

@@ -93,13 +93,8 @@ export default function CreateTagSection() {
       return;
     }
     
-    // Tag oluşturma limiti kontrolü
-    if (!canCreate) {
-      setError(limitMessage || 'Tag oluşturma limitinize ulaştınız.');
-      return;
-    }
-
-    setShowForm(true);
+    // Tag oluşturma sayfasına yönlendir
+    router.push('/create-tag');
   };
 
   // Başarılı oluşturma durumu
@@ -175,47 +170,6 @@ export default function CreateTagSection() {
     );
   }
 
-  // Form gösterme durumu
-  if (showForm) {
-    return (
-      <div className="py-12 md:py-16">
-        {error && (
-          <div className="max-w-2xl mx-auto mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
-            <div className="flex items-center gap-3">
-              <svg
-                className="w-5 h-5 text-red-400 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-red-300 text-sm">{error}</p>
-            </div>
-          </div>
-        )}
-
-        <CreateTagForm
-          onSuccess={handleFormSuccess}
-          onError={handleFormError}
-        />
-
-        <div className="text-center mt-8">
-          <button
-            onClick={() => setShowForm(false)}
-            className="px-6 py-3 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-600 transition-all duration-300"
-          >
-            ← Geri Dön
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   // Ana CTA bölümü
   return (
@@ -345,13 +299,6 @@ export default function CreateTagSection() {
               </svg>
               Panelim ({userTags.length} Tag)
             </>
-          ) : !canCreate ? (
-            <>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-              Premium Gerekli
-            </>
           ) : (
             <>
               <svg
@@ -382,11 +329,6 @@ export default function CreateTagSection() {
               iletişime geçin
             </a>
           </p>
-          {!canCreate && (
-            <p className="text-yellow-400">
-              Ücretsiz kullanıcılar sadece 1 tag oluşturabilir
-            </p>
-          )}
         </div>
       </div>
 

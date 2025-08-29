@@ -68,7 +68,8 @@ export const createTag = async (
       uniqueUrl,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
-      isActive: true
+      isActive: true,
+      isClaimed: true // Kullanıcı tarafından oluşturulan tag'ler claimed olarak işaretlenir
     };
     
     const tagsCollection = collection(firestore, TAGS_COLLECTION);
@@ -87,7 +88,8 @@ export const createTag = async (
       uniqueUrl,
       createdAt: new Date(),
       updatedAt: new Date(),
-      isActive: true
+      isActive: true,
+      isClaimed: true
     };
   } catch (error) {
     console.error('Tag oluşturma hatası:', error);

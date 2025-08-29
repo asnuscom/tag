@@ -147,11 +147,14 @@ export default function CreateTagForm({
       return;
     }
 
-    // reCAPTCHA kontrolü
-    const recaptchaToken = recaptchaRef.current?.getValue();
-    if (!recaptchaToken) {
-      onError("Lütfen reCAPTCHA'yı tamamlayın");
-      return;
+    // reCAPTCHA kontrolü (sadece production'da)
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    if (!isDevelopment) {
+      const recaptchaToken = recaptchaRef.current?.getValue();
+      if (!recaptchaToken) {
+        onError("Lütfen reCAPTCHA'yı tamamlayın");
+        return;
+      }
     }
 
     // Kullanıcı verileri yüklenme kontrolü
@@ -192,7 +195,7 @@ export default function CreateTagForm({
           bloodType: formData.bloodType,
         },
         motorcycle: {
-          brand: formData.motorcycleBrand,
+          brand: motorcycleBrands.find(x => x.value === formData.motorcycleBrand)?.value,
           model: formData.motorcycleModel,
           plate: formData.plate,
           image: getMotorcycleImage(formData.motorcycleBrand),
@@ -202,8 +205,7 @@ export default function CreateTagForm({
           phone: formData.emergencyPhone,
         },
         theme: formData.motorcycleBrand as Tag['theme'],
-        note: formData.note,
-        name: formData.tagName,
+        note: formData.note
       };
 
       // Tag'ı oluştur (Firestore kullanıcı ID'sini kullan)
@@ -536,14 +538,25 @@ export default function CreateTagForm({
           />
         </div>
 
-        {/* reCAPTCHA */}
-        <div className="flex justify-center">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-            theme="dark"
-          />
-        </div>
+        {/* reCAPTCHA - Sadece production'da göster */}
+        {process.env.NODE_ENV !== 'development' && (
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+              theme="dark"
+            />
+          </div>
+        )}
+        
+        {/* Development uyarısı */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-center">
+            <p className="text-yellow-400 text-sm">
+              🔧 Development Modu: reCAPTCHA devre dışı
+            </p>
+          </div>
+        )}
 
         {/* Şartlar ve Koşullar */}
         <div className="flex items-start gap-3">

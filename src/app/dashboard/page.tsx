@@ -106,7 +106,7 @@ export default function Dashboard() {
   const handleEditSuccess = () => {
     setShowEditModal(false);
     setSelectedTag(null);
-    loadUserData(); // Verileri yeniden yükle
+    loadUserTags(); // Verileri yeniden yükle
   };
 
   const handleEditError = (errorMessage: string) => {
@@ -224,8 +224,8 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-slate-400 text-sm">Üyelik Durumu</p>
-                  <p className={`text-2xl font-bold ${currentUser.isPremium ? 'text-yellow-400' : 'text-slate-400'}`}>
-                    {currentUser.isPremium ? 'Premium' : 'Ücretsiz'}
+                  <p className={`text-2xl font-bold ${isPremium ? 'text-yellow-400' : 'text-slate-400'}`}>
+                    {isPremium ? 'Premium' : 'Ücretsiz'}
                   </p>
                 </div>
                 <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
@@ -264,7 +264,7 @@ export default function Dashboard() {
                 Motosikletiniz için özel bir dijital iletişim kartı oluşturun.
               </p>
               <Link
-                href="/"
+                href="/create-tag"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
               >
                 <svg
@@ -340,7 +340,7 @@ export default function Dashboard() {
             {/* Yeni Tag Oluştur Butonu */}
             <div className="text-center py-8">
               <Link
-                href="/"
+                href="/create-tag"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
               >
                 <svg

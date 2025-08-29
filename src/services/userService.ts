@@ -300,16 +300,24 @@ export const canUserCreateTag = async (userId: string): Promise<{
       };
     }
     
+    // Premium kullanıcılar sınırsız tag oluşturabilir
+    if (user.membership === 'premium') {
+      return {
+        canCreate: true,
+        reason: undefined,
+        currentCount: 0,
+        maxTags: 999
+      };
+    }
+    
     // Tag sayısını tagService'den al
     const { getUserTagCount } = await import('./tagService');
     const currentTagCount = await getUserTagCount(userId);
     
     const canCreate = currentTagCount < user.maxTags;
     const reason = !canCreate ? 
-      (user.membership === 'standard' ? 
-        'Standard üyelik ile sadece 1 tag oluşturabilirsiniz. Premium üyelik için iletişime geçin.' :
-        'Tag limiti aşıldı.'
-      ) : undefined;
+      'Standard üyelik ile sadece 1 tag oluşturabilirsiniz. Premium üyelik için iletişime geçin.' : 
+      undefined;
     
     return {
       canCreate,

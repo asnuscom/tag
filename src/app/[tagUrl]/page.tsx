@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
+import Link from "next/link";
 import { getTagByUniqueUrl } from "@/services/tagService";
 import { Tag, User } from "@/types/user";
 import { themes } from "@/config/themes";
@@ -15,7 +16,6 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
   const { user: authUser } = useAuth();
   const { currentUser } = useUserStore();
   const [tag, setTag] = useState<Tag | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showClaimForm, setShowClaimForm] = useState(false);
@@ -35,18 +35,12 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
         
         if (tagData) {
           setTag(tagData);
-          
-          // Eğer tag sahipliyse, user olarak da göster
-          if (tagData.isClaimed && tagData.userId && tagData.userId !== '') {
-            setUser(tagData as any);
-          }
         } else {
-          // Tag bulunamazsa, demo kullanıcılar içinde ara
-          const demoUsers = demoUsersData as Record<string, User>;
-          const demoUser = demoUsers[urlParam];
+          const demoTags = demoUsersData as Record<string, Tag>;
+          const demoTag = demoTags[urlParam];
           
-          if (demoUser) {
-            setUser(demoUser);
+          if (demoTag) {
+            setTag(demoTag as Tag);
           } else {
             setError("Aradığınız motosiklet kartı sistemde kayıtlı değil.");
           }
@@ -63,7 +57,7 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
 
   const handleClaimSuccess = (claimedTag: Tag) => {
     setTag(claimedTag);
-    setUser(claimedTag as any);
+      (claimedTag as any);
     setShowClaimForm(false);
   };
 
@@ -78,7 +72,7 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
     );
   }
 
-  if (error || (!tag && !user)) {
+  if (error || (!tag)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
         <div className="text-center">
@@ -89,7 +83,7 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">İçerik Bulunamadı</h1>
           <p className="text-slate-300 mb-6">{error || "Bu sayfa mevcut değil veya kaldırılmış."}</p>
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
           >
@@ -97,14 +91,14 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             Ana Sayfaya Dön
-          </a>
+          </Link>
         </div>
       </div>
     );
   }
 
   // Sahipsiz tag ise claim form göster (userId boş string veya falsy)
-  if (tag && (!tag.isClaimed || !tag.userId || tag.userId === '')) {
+  if (tag && tag.tag !== 'DEMO' && (!tag.isClaimed || !tag.userId || tag.userId === '')) {
     if (!authUser) {
       return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
@@ -175,20 +169,17 @@ export default function UniversalPage({ params }: { params: Promise<{ tagUrl: st
     );
   }
 
-  // Sahipli tag ise TagDisplay kullan
-  if (tag && tag.isClaimed && tag.userId) {
-    return <TagDisplay tag={tag} />;
-  }
 
-  // Demo kullanıcı ise TagCard kullan  
-  if (user) {
-    const theme = themes[user.theme];
+  if (tag) {
+    const theme = themes[tag.theme];
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
-        <TagCard user={user} theme={theme} />
+        <TagCard tag={tag} theme={theme} />
       </div>
     );
   }
+  else {
+    return <div>Tag bulunamadı</div>;
+  }
 
-  return null;
 }

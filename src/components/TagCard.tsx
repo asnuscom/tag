@@ -1,22 +1,23 @@
 "use client";
 
-import { User } from "@/types/user";
+import { Tag } from "@/types/user";
 import { ThemeConfig } from "@/config/themes";
+import Link from "next/link";
 
 import MotorcycleLogo from "./MotorcycleLogo";
 
 interface TagCardProps {
-  user: User;
+  tag: Tag;
   theme: ThemeConfig;
 }
 
-export default function TagCard({ user, theme }: TagCardProps) {
+export default function TagCard({ tag, theme }: TagCardProps) {
   const handleCall = () => {
-    window.location.href = `tel:${user.personalInfo.phone}`;
+    window.location.href = `tel:${tag.personalInfo.phone}`;
   };
 
   const handleWhatsApp = () => {
-    const phoneNumber = user.personalInfo.phone
+    const phoneNumber = tag.personalInfo.phone
       .replace(/\s/g, "")
       .replace(/^0/, "90");
     window.open(`https://wa.me/${phoneNumber}`, "_blank");
@@ -24,13 +25,13 @@ export default function TagCard({ user, theme }: TagCardProps) {
 
   const handleInstagram = () => {
     window.open(
-      `https://instagram.com/${user.personalInfo.instagram}`,
+      `https://instagram.com/${tag.personalInfo.instagram}`,
       "_blank"
     );
   };
 
   const handleEmergencyCall = () => {
-    const phoneNumber = user.emergency.phone.replace(/\s/g, "");
+    const phoneNumber = tag.emergency.phone.replace(/\s/g, "");
     window.location.href = `tel:${phoneNumber}`;
   };
 
@@ -68,18 +69,34 @@ export default function TagCard({ user, theme }: TagCardProps) {
             </div>
             <div>
               <p className="text-xs uppercase tracking-wider text-slate-400">
-                {user.motorcycle.brand}
+                {tag.motorcycle.brand}
               </p>
               <h1 className="text-xl font-semibold text-white">
-                {user.motorcycle.model}
+                {tag.motorcycle.model}
               </h1>
             </div>
           </div>
-          <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300 ring-1 ring-white/10">
-            {user.tag === "DEMO"
-              ? "DEMO"
-              : user.personalInfo.name.split(" ")[0]}
-          </span>
+          
+          {/* Right Side */}
+          <div className="text-right">
+            {/* Asnus Tag Link */}
+            <Link
+              href="/"
+              className="block text-base font-bold hover:text-white transition-all duration-200 mb-1 hover:scale-105"
+              style={{ 
+                color: theme.colors.primary,
+                textShadow: `0 0 10px ${theme.colors.primary}40`,
+                filter: `drop-shadow(0 2px 4px ${theme.colors.primary}30)`
+              }}
+            >
+              Asnus Tag
+            </Link>
+            <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300 ring-1 ring-white/10">
+              {tag.tag === "DEMO"
+                ? "DEMO"
+                : tag.personalInfo.name.split(" ")[0]}
+            </span>
+          </div>
         </header>
 
         {/* Card */}
@@ -103,8 +120,8 @@ export default function TagCard({ user, theme }: TagCardProps) {
             </div>
             <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 transform -translate-x-1/2">
               <MotorcycleLogo
-                brand={user.motorcycle.brand}
-                model={user.motorcycle.model}
+                brand={tag.motorcycle.brand}
+                model={tag.motorcycle.model}
                 size="xl"
                 variant="card"
                 className="pointer-events-none select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
@@ -120,12 +137,12 @@ export default function TagCard({ user, theme }: TagCardProps) {
                 Marka/Model
               </p>
               <p className="mt-1 text-base sm:text-lg font-semibold text-white">
-                {user.motorcycle.brand} {user.motorcycle.model}
+                {tag.motorcycle.brand} {tag.motorcycle.model}
               </p>
             </div>
 
             {/* Plaka ve Renk */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid  sm:gap-4">
               <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <p className="text-[11px] uppercase tracking-wider text-slate-400">
                   Plaka
@@ -139,13 +156,13 @@ export default function TagCard({ user, theme }: TagCardProps) {
                     </div>
                     <div className="flex-1 flex items-center justify-center p-1 bg-white">
                       <span className="text-black font-black text-lg tracking-widest text-center">
-                        {user.motorcycle.plate}
+                        {tag.motorcycle.plate}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              {/* <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <p className="text-[11px] uppercase tracking-wider text-slate-400">
                   Renk Paleti
                 </p>
@@ -179,7 +196,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                     <span className="text-xs text-slate-500">Detay</span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Owner / Contact */}
@@ -199,7 +216,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                       İsim
                     </p>
                     <p className="mt-1 font-medium text-white">
-                      {user.personalInfo.name}
+                      {tag.personalInfo.name}
                     </p>
                   </div>
                 </div>
@@ -219,7 +236,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                       Telefon
                     </p>
                     <p className="mt-1 font-medium text-white">
-                      {user.personalInfo.phone}
+                      {tag.personalInfo.phone}
                     </p>
                   </div>
                 </div>
@@ -239,7 +256,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                       E-posta
                     </p>
                     <p className="mt-1 truncate font-medium text-white">
-                      {user.personalInfo.email}
+                      {tag.personalInfo.email}
                     </p>
                   </div>
                 </div>
@@ -252,7 +269,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                 Kan Grubu
               </p>
               <p className="mt-1 text-sm font-semibold text-white">
-                {user.personalInfo.bloodType}
+                {tag.personalInfo.bloodType}
               </p>
             </div>
 
@@ -262,7 +279,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                 Not
               </p>
               <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                {user.note}
+                {tag.note}
               </p>
 
               {/* İletişim Butonları */}
@@ -321,7 +338,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                     İsim
                   </p>
                   <p className="mt-1 font-semibold text-white">
-                    {user.emergency.name}
+                    {tag.emergency.name}
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-white/5 p-3">
@@ -329,7 +346,7 @@ export default function TagCard({ user, theme }: TagCardProps) {
                     Telefon
                   </p>
                   <p className="mt-1 font-semibold text-white">
-                    {user.emergency.phone}
+                    {tag.emergency.phone}
                   </p>
                 </div>
               </div>

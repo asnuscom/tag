@@ -68,9 +68,13 @@ export default function MotorcycleLogo({
         height={
           size === "xl" ? 160 : size === "lg" ? 128 : size === "md" ? 80 : 64
         }
-        className="w-full h-full object-contain"
+        className="object-contain"
         style={{
           filter: getLogoFilter(brand, variant),
+          maxWidth: size === "xl" ? "220px" : size === "lg" ? "120px" : size === "md" ? "75px" : "60px",
+          maxHeight: size === "xl" ? "140px" : size === "lg" ? "120px" : size === "md" ? "75px" : "60px",
+          width: "auto",
+          height: "auto"
         }}
         onError={(e) => {
           (e.target as HTMLImageElement).src = getMotorcycleImage("honda");
